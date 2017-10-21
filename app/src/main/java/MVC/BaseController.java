@@ -5,10 +5,11 @@ import android.arch.lifecycle.LifecycleObserver;
 import android.arch.lifecycle.OnLifecycleEvent;
 import android.support.v4.app.FragmentActivity;
 
-import com.example.nsohoni.fragmentlifecycles.PMActivity;
-import com.example.nsohoni.fragmentlifecycles.PMFragment;
 
 import java.lang.ref.WeakReference;
+
+import views.PMActivity;
+import views.PMFragment;
 
 import static android.arch.lifecycle.Lifecycle.State.STARTED;
 
@@ -33,6 +34,10 @@ public abstract class BaseController implements LifecycleObserver {
 
     @OnLifecycleEvent(Lifecycle.Event.ON_RESUME)
     public void onResume() {
+        PMFragment fragment = getOwnerFragment();
+        if(fragment != null) {
+            fragment.setupViews();
+        }
     }
 
     @OnLifecycleEvent(Lifecycle.Event.ON_PAUSE)

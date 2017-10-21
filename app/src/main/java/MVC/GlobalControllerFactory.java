@@ -1,7 +1,5 @@
 package MVC;
 
-import com.example.nsohoni.fragmentlifecycles.PMFragment;
-
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
@@ -9,6 +7,7 @@ import java.util.Map;
 import java.util.UUID;
 
 import MVC.BaseController;
+import views.PMFragment;
 
 /**
  * Created by nsohoni on 14/10/17.

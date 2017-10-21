@@ -5,5 +5,6 @@ package MVC;
  */
 
 public interface ViewInterface {
+    void setupViews();
     void updateViews();
 }

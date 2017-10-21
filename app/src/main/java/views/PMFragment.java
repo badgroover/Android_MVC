@@ -1,4 +1,4 @@
-package com.example.nsohoni.fragmentlifecycles;
+package views;
 
 import android.arch.lifecycle.LifecycleFragment;
 import android.os.Bundle;
@@ -37,6 +37,11 @@ public class PMFragment extends LifecycleFragment implements ViewInterface {
         } else {
             return false;
         }
+    }
+
+    @Override
+    public void setupViews() {
+
     }
 
     @Override

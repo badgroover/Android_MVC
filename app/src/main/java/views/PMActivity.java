@@ -1,4 +1,4 @@
-package com.example.nsohoni.fragmentlifecycles;
+package views;
 
 import android.arch.lifecycle.LifecycleActivity;
 import android.os.Bundle;

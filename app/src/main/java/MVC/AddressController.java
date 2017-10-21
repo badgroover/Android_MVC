@@ -1,10 +1,10 @@
 package MVC;
 
-import com.example.nsohoni.fragmentlifecycles.PMFragment;
 import java.lang.ref.WeakReference;
 
 import MVC.BaseController;
 import MVC.UserModel;
+import views.PMFragment;
 
 import static java.lang.Thread.sleep;
 

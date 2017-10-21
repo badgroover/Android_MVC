@@ -1,17 +1,14 @@
-package com.example.nsohoni.fragmentlifecycles;
+package views;
 
-import android.arch.lifecycle.LifecycleActivity;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 
 import lifecycle.MyActivityLifecycleObserver;
-import lifecycle.MyLifecycleObserver;
 
 public class MainActivity extends PMActivity {
 

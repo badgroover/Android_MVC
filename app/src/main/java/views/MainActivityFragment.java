@@ -1,11 +1,10 @@
-package com.example.nsohoni.fragmentlifecycles;
+package views;
 
-import android.arch.lifecycle.LifecycleFragment;
-import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 
 import MVC.AddressController;
 import MVC.GlobalControllerFactory;
@@ -18,6 +17,11 @@ public class MainActivityFragment extends PMFragment {
 
     private MyLifecycleObserver observer;
     private AddressController controller;
+
+    EditText    name;
+    EditText    address1;
+    EditText    address2;
+    EditText    city;
 
     public MainActivityFragment() {
     }
@@ -35,4 +39,22 @@ public class MainActivityFragment extends PMFragment {
                              Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_main, container, false);
     }
+
+    @Override
+    public void setupViews(){
+        //called by controller at the appropriate time
+        View v = getView();
+        name = (EditText) v.findViewById(R.id.name);
+        address1 = (EditText) v.findViewById(R.id.add1);
+        address2 = (EditText) v.findViewById(R.id.add2);
+        city = (EditText) v.findViewById(R.id.city);
+    }
+
+    @Override
+    public void updateViews() {
+        //called by the controller when the model has been updated.
+
+    }
+
+
 }
