@@ -11,17 +11,22 @@ import java.lang.ref.WeakReference;
 import views.PMActivity;
 import views.PMFragment;
 
-import static android.arch.lifecycle.Lifecycle.State.STARTED;
-
 /**
  * Created by nsohoni on 14/10/17.
  */
 
 public abstract class BaseController implements LifecycleObserver {
 
-    WeakReference<PMFragment> ownerFragment;
+    PM_Model model;
+    WeakReference<PMFragment>   ownerFragment;
+    Object                      mutex = new Object();
+    boolean                     isControllerAlive = false;
 
 
+    public BaseController(PMFragment fragment) {
+        isControllerAlive = true;
+        ownerFragment = new WeakReference(fragment);
+    }
 
     @OnLifecycleEvent(Lifecycle.Event.ON_START)
     public void start() {
@@ -54,9 +59,11 @@ public abstract class BaseController implements LifecycleObserver {
             FragmentActivity activity = fragment.getActivity();
             if(activity != null) {
                 if(!((PMActivity)activity).isStateSaved()) {
+                    isControllerAlive = false;
                     GlobalControllerFactory.getInstance().remove(fragment.getFragmentId());
                 }
             } else {
+                isControllerAlive = false;
                 GlobalControllerFactory.getInstance().remove(fragment.getFragmentId());
             }
         }
@@ -64,5 +71,27 @@ public abstract class BaseController implements LifecycleObserver {
 
     public PMFragment getOwnerFragment() {
         return ownerFragment.get();
+    }
+
+    public boolean isControllerAlive() {
+        return isControllerAlive;
+    }
+
+    public void setControllerState(boolean isAlive) {
+        synchronized (mutex) {
+            isControllerAlive = isAlive;
+        }
+    }
+
+    public <T> T getModel(Class<T> modelType) {
+        if(model != null && modelType.isInstance(model)) {
+            return modelType.cast(model);
+        } else {
+            return null;
+        }
+    }
+
+    public void setFragment(PMFragment fragment) {
+        ownerFragment = new WeakReference(fragment);
     }
 }

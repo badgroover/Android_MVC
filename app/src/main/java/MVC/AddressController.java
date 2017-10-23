@@ -1,5 +1,8 @@
 package MVC;
 
+import android.arch.lifecycle.Lifecycle;
+import android.arch.lifecycle.OnLifecycleEvent;
+
 import java.lang.ref.WeakReference;
 
 import MVC.BaseController;
@@ -13,20 +16,28 @@ import static java.lang.Thread.sleep;
  */
 
 public class AddressController extends BaseController {
-    UserModel model;
 
     public AddressController(PMFragment fragment) {
-        //add fragment to the weak reference;
-        ownerFragment = new WeakReference(fragment);
+        super(fragment);
     }
+
+    @OnLifecycleEvent(Lifecycle.Event.ON_RESUME)
+    public void onResume() {
+        super.onResume();
+        populateModel(false);
+    }
+
+
+
 
     public void populateModel(boolean refresh) {
         if (refresh) {
             //re-fetch data from source (db/cloud/file)
         } else if (model == null){
-            //create a model
-            model = new UserModel();
             fetchData();
+        } else {
+            //we have data...
+            updateViews();
         }
     }
 
@@ -54,12 +65,21 @@ public class AddressController extends BaseController {
         @Override
         public void run() {
             try {
-                sleep(15000);
+                sleep(7000);
                 PMFragment frag = getOwnerFragment();
-                if(frag != null) {
-                    boolean b = frag.isFragmentVisible();
-
-                    //frag.hideProgressDialog();;
+                if(isControllerAlive() && frag != null) {
+                    frag.getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            UserModel m = new UserModel();
+                            m.name = new String("Nikhil Sohoni");
+                            m.address1 = new String("591 W. Remington Dr");
+                            m.address2 = new String("APt 211");
+                            m.city = new String("Sunnyvale");
+                            model = m;
+                            updateViews();
+                        }
+                    });
                 }
 
                 } catch (InterruptedException e) {

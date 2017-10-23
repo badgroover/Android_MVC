@@ -34,6 +34,7 @@ public class GlobalControllerFactory {
         UUID fragmentId = fragment.getFragmentId();
         if(map.containsKey(fragmentId)) {
             controller = map.get(fragmentId);
+            controller.setFragment(fragment);
             fragment.getLifecycle().addObserver(controller);
             return controllerClass.cast(controller);
         } else {
@@ -60,6 +61,8 @@ public class GlobalControllerFactory {
 
     public void remove(UUID fragmentId) {
         if(map.containsKey(fragmentId)) {
+            BaseController controller = map.get(fragmentId);
+            controller.setControllerState(false);
             map.remove(fragmentId);
         }
     }

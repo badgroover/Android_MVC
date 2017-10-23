@@ -10,4 +10,5 @@ public class UserModel extends PM_Model {
     public String name;
     public String address1;
     public String address2;
+    public String city;
 }
