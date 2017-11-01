@@ -4,9 +4,11 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 
 import MVC.AddressController;
+import MVC.DataFetchListener;
 import MVC.GlobalControllerFactory;
 import MVC.UserModel;
 import lifecycle.MyLifecycleObserver;
@@ -23,6 +25,7 @@ public class MainActivityFragment extends PMFragment {
     EditText    address1;
     EditText    address2;
     EditText    city;
+    Button      launchFragmentBtn;
 
     public MainActivityFragment() {
     }
@@ -54,6 +57,24 @@ public class MainActivityFragment extends PMFragment {
         address1 = (EditText) v.findViewById(R.id.add1);
         address2 = (EditText) v.findViewById(R.id.add2);
         city = (EditText) v.findViewById(R.id.city);
+        launchFragmentBtn = (Button) v.findViewById(R.id.launchFragmentBtn);
+
+        launchFragmentBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                controller.getSecondaryAddress(new DataFetchListener<UserModel>() {
+                    @Override
+                    public void success(UserModel data) {
+                        updateViews();
+                    }
+
+                    @Override
+                    public void error() {
+
+                    }
+                });
+            }
+        });
     }
 
     @Override

@@ -3,6 +3,8 @@ package views;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.Menu;
@@ -21,12 +23,19 @@ public class MainActivity extends PMActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         //setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
+        FloatingActionButton fab1 = (FloatingActionButton) findViewById(R.id.fab1);
+        fab1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                launchFragment();
+            }
+        });
+
+        FloatingActionButton fab2 = (FloatingActionButton) findViewById(R.id.fab2);
+        fab2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                launchFragment2();
             }
         });
 
@@ -41,6 +50,25 @@ public class MainActivity extends PMActivity {
         //Boogle b = new Boogle();
         //b.solveBoard();
     }
+
+    private void launchFragment() {
+        MainActivityFragment fragment = new MainActivityFragment();
+        FragmentManager fm = getSupportFragmentManager();
+        FragmentTransaction ft = fm.beginTransaction();
+        ft.replace(R.id.fragmentContainer, fragment);
+        ft.addToBackStack("f1");
+        ft.commit();
+    }
+
+    private void launchFragment2() {
+        SecondFragment fragment = new SecondFragment();
+        FragmentManager fm = getSupportFragmentManager();
+        FragmentTransaction ft = fm.beginTransaction();
+        ft.add(R.id.fragmentContainer, fragment);
+        ft.addToBackStack("f2");
+        ft.commit();
+    }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

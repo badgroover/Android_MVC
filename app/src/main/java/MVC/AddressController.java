@@ -1,5 +1,6 @@
 package MVC;
 
+import android.app.Activity;
 import android.arch.lifecycle.Lifecycle;
 import android.arch.lifecycle.OnLifecycleEvent;
 
@@ -61,6 +62,44 @@ public class AddressController extends BaseController {
 
     }
 
+    public void getSecondaryAddress(DataFetchListener<UserModel> listener) {
+        final WeakReference<DataFetchListener> weakListener = new WeakReference<DataFetchListener>(listener);
+        Runnable r = new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    sleep(7000);
+                    PMFragment frag = getOwnerFragment();
+                    if(isControllerAlive() && frag != null) {
+                        Activity activity = frag.getActivity();
+                        if(activity != null && !activity.isFinishing()) {
+                            activity.runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    UserModel m = new UserModel();
+                                    m.name = new String("Sapna Sohoni");
+                                    m.address1 = new String("591 W. Remington Dr");
+                                    m.address2 = new String("APt 211");
+                                    m.city = new String("Fremont");
+                                    model = m;
+                                    DataFetchListener<UserModel> l = weakListener.get();
+                                    if(l != null) {
+                                        l.success((UserModel)model);
+                                    }
+                                }
+                            });
+                        }
+                    }
+
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        };
+        new Thread(r).start();
+    }
+
     class TestThread implements Runnable {
         @Override
         public void run() {
@@ -68,18 +107,21 @@ public class AddressController extends BaseController {
                 sleep(7000);
                 PMFragment frag = getOwnerFragment();
                 if(isControllerAlive() && frag != null) {
-                    frag.getActivity().runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            UserModel m = new UserModel();
-                            m.name = new String("Nikhil Sohoni");
-                            m.address1 = new String("591 W. Remington Dr");
-                            m.address2 = new String("APt 211");
-                            m.city = new String("Sunnyvale");
-                            model = m;
-                            updateViews();
-                        }
-                    });
+                    Activity activity = frag.getActivity();
+                    if(activity != null && !activity.isFinishing()) {
+                        activity.runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                UserModel m = new UserModel();
+                                m.name = new String("Nikhil Sohoni");
+                                m.address1 = new String("591 W. Remington Dr");
+                                m.address2 = new String("APt 211");
+                                m.city = new String("Sunnyvale");
+                                model = m;
+                                updateViews();
+                            }
+                        });
+                    }
                 }
 
                 } catch (InterruptedException e) {
