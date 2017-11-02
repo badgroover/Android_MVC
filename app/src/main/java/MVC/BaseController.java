@@ -9,7 +9,6 @@ import android.support.v4.app.FragmentActivity;
 import java.lang.ref.WeakReference;
 
 import views.PMActivity;
-import views.PMFragment;
 
 /**
  * Created by nsohoni on 14/10/17.
@@ -18,14 +17,14 @@ import views.PMFragment;
 public abstract class BaseController implements LifecycleObserver {
 
     PM_Model model;
-    WeakReference<PMFragment>   ownerFragment;
+    WeakReference<PMLifecycleRegistryOwner>   lifecycleRegistryOwner;
     Object                      mutex = new Object();
     boolean                     isControllerAlive = false;
 
 
-    public BaseController(PMFragment fragment) {
+    public BaseController(PMLifecycleRegistryOwner lifecycleOwner) {
         isControllerAlive = true;
-        ownerFragment = new WeakReference(fragment);
+        this.lifecycleRegistryOwner = new WeakReference(lifecycleOwner);
     }
 
     @OnLifecycleEvent(Lifecycle.Event.ON_START)
@@ -39,9 +38,9 @@ public abstract class BaseController implements LifecycleObserver {
 
     @OnLifecycleEvent(Lifecycle.Event.ON_RESUME)
     public void onResume() {
-        PMFragment fragment = getOwnerFragment();
-        if(fragment != null) {
-            fragment.setupViews();
+        PMLifecycleRegistryOwner owner = getLifecycleOwner();
+        if(owner != null) {
+            owner.setupViews();
         }
     }
 
@@ -54,23 +53,32 @@ public abstract class BaseController implements LifecycleObserver {
         //lets check if the fragment is going away due to kill switch...
         ///if not (which means that user is backing out of fragment)
         //we remove ourselves from the GlobalController map
-        PMFragment fragment = getOwnerFragment();
-        if(fragment != null) {
-            FragmentActivity activity = fragment.getActivity();
+        PMLifecycleRegistryOwner owner = getLifecycleOwner();
+        if(owner != null) {
+            FragmentActivity activity = owner.getOwnerActivity();
             if(activity != null) {
                 if(!((PMActivity)activity).isStateSaved()) {
                     isControllerAlive = false;
-                    GlobalControllerFactory.getInstance().remove(fragment.getFragmentId());
+                    GlobalControllerFactory.getInstance().remove(owner.getIdentifier());
                 }
             } else {
                 isControllerAlive = false;
-                GlobalControllerFactory.getInstance().remove(fragment.getFragmentId());
+                GlobalControllerFactory.getInstance().remove(owner.getIdentifier());
             }
         }
     }
 
-    public PMFragment getOwnerFragment() {
-        return ownerFragment.get();
+    public void detachController() {
+        PMLifecycleRegistryOwner owner = getLifecycleOwner();
+        if(owner != null) {
+            isControllerAlive = false;
+            GlobalControllerFactory.getInstance().remove(owner.getIdentifier());
+            owner.getLifecycle().removeObserver(this);
+        }
+    }
+
+    public PMLifecycleRegistryOwner getLifecycleOwner() {
+        return lifecycleRegistryOwner.get();
     }
 
     public boolean isControllerAlive() {
@@ -91,7 +99,7 @@ public abstract class BaseController implements LifecycleObserver {
         }
     }
 
-    public void setFragment(PMFragment fragment) {
-        ownerFragment = new WeakReference(fragment);
+    public void setLifecycleRegistryOwner(PMLifecycleRegistryOwner owner) {
+        lifecycleRegistryOwner = new WeakReference(owner);
     }
 }

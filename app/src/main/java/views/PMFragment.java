@@ -1,19 +1,22 @@
 package views;
 
-import android.arch.lifecycle.LifecycleFragment;
+import android.arch.lifecycle.LifecycleRegistry;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 
 import java.util.UUID;
 
+import MVC.PMLifecycleRegistryOwner;
 import MVC.ViewInterface;
 
 /**
  * Created by nsohoni on 16/10/17.
  */
 
-public class PMFragment extends LifecycleFragment implements ViewInterface {
+public class PMFragment extends Fragment implements PMLifecycleRegistryOwner, ViewInterface {
 
-    UUID    fragmentId;
+    UUID                fragmentId;
+    LifecycleRegistry mLifecycleRegistry = new LifecycleRegistry(this);
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -31,6 +34,25 @@ public class PMFragment extends LifecycleFragment implements ViewInterface {
         outState.putString("FRAGMENT_ID", fragmentId.toString());
     }
 
+    @Override
+    public LifecycleRegistry getLifecycle() {
+        return mLifecycleRegistry;
+    }
+
+    @Override
+    public void updateViews() {
+
+    }
+
+    @Override
+    public void setupViews() {
+
+    }
+
+    @Override
+    public UUID getIdentifier() {
+        return fragmentId;
+    }
     public boolean isFragmentVisible() {
         if(isVisible() && isAdded()) {
             return true;
@@ -40,16 +62,7 @@ public class PMFragment extends LifecycleFragment implements ViewInterface {
     }
 
     @Override
-    public void setupViews() {
-
-    }
-
-    @Override
-    public void updateViews() {
-
-    }
-
-    public UUID getFragmentId() {
-        return fragmentId;
+    public PMActivity getOwnerActivity() {
+        return (PMActivity) getActivity();
     }
 }

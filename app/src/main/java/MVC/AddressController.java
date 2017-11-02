@@ -6,8 +6,6 @@ import android.arch.lifecycle.OnLifecycleEvent;
 
 import java.lang.ref.WeakReference;
 
-import MVC.BaseController;
-import MVC.UserModel;
 import views.PMFragment;
 
 import static java.lang.Thread.sleep;
@@ -18,8 +16,8 @@ import static java.lang.Thread.sleep;
 
 public class AddressController extends BaseController {
 
-    public AddressController(PMFragment fragment) {
-        super(fragment);
+    public AddressController(PMLifecycleRegistryOwner owner) {
+        super(owner);
     }
 
     @OnLifecycleEvent(Lifecycle.Event.ON_RESUME)
@@ -44,16 +42,16 @@ public class AddressController extends BaseController {
 
     public void updateViews() {
         //call an interface method implemented in fragment and pass in the model
-        PMFragment fragment = ownerFragment.get();
-        if(fragment != null && fragment.isFragmentVisible()) {
-            fragment.updateViews();
+        PMLifecycleRegistryOwner owner = getLifecycleOwner();
+        if(owner != null && owner.getLifecycle().getCurrentState().isAtLeast(Lifecycle.State.RESUMED)) {
+            owner.updateViews();
         }
     }
 
     private void fetchData() {
         //Start a thread to get data
-        PMFragment frag = getOwnerFragment();
-        if(frag != null) {
+        PMLifecycleRegistryOwner owner = getLifecycleOwner();
+        if(owner != null) {
             //frag.showProgressDialogWithMessage("Loading");
             TestThread thread = new TestThread();
             new Thread(thread).start();
@@ -69,9 +67,9 @@ public class AddressController extends BaseController {
             public void run() {
                 try {
                     sleep(7000);
-                    PMFragment frag = getOwnerFragment();
-                    if(isControllerAlive() && frag != null) {
-                        Activity activity = frag.getActivity();
+                    PMLifecycleRegistryOwner owner = getLifecycleOwner();
+                    if(isControllerAlive() && owner != null) {
+                        Activity activity = owner.getOwnerActivity();
                         if(activity != null && !activity.isFinishing()) {
                             activity.runOnUiThread(new Runnable() {
                                 @Override
@@ -105,9 +103,9 @@ public class AddressController extends BaseController {
         public void run() {
             try {
                 sleep(7000);
-                PMFragment frag = getOwnerFragment();
-                if(isControllerAlive() && frag != null) {
-                    Activity activity = frag.getActivity();
+                PMLifecycleRegistryOwner owner = getLifecycleOwner();
+                if(isControllerAlive() && owner != null) {
+                    Activity activity = owner.getOwnerActivity();
                     if(activity != null && !activity.isFinishing()) {
                         activity.runOnUiThread(new Runnable() {
                             @Override

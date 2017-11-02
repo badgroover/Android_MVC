@@ -54,9 +54,14 @@
         android:id="@+id/city"/>
 
     <Button
+        android:id="@+id/fetchDataButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Fetch Async Data"/>
+
+    <Button
         android:id="@+id/launchFragmentBtn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Launch Fragment"/>
-
 </LinearLayout>

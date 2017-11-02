@@ -29,21 +29,21 @@ public class GlobalControllerFactory {
     private GlobalControllerFactory() {
     }
 
-    public <T extends BaseController> T  getControllerForFragment(PMFragment fragment, Class<T> controllerClass) {
+    public <T extends BaseController> T getControllerForLifecycleOwner(PMLifecycleRegistryOwner owner, Class<T> controllerClass) {
         BaseController controller;
-        UUID fragmentId = fragment.getFragmentId();
-        if(map.containsKey(fragmentId)) {
-            controller = map.get(fragmentId);
-            controller.setFragment(fragment);
-            fragment.getLifecycle().addObserver(controller);
+        UUID identifier = owner.getIdentifier();
+        if(map.containsKey(identifier)) {
+            controller = map.get(identifier);
+            controller.setLifecycleRegistryOwner(owner);
+            owner.getLifecycle().addObserver(controller);
             return controllerClass.cast(controller);
         } else {
             Constructor<?> ctor = null;
             try {
-                ctor = controllerClass.getConstructor(PMFragment.class);
-                controller = (BaseController) ctor.newInstance(new Object[] { fragment });
-                fragment.getLifecycle().addObserver(controller);
-                map.put(fragmentId, controller);
+                ctor = controllerClass.getConstructor(PMLifecycleRegistryOwner.class);
+                controller = (BaseController) ctor.newInstance(new Object[] { owner });
+                owner.getLifecycle().addObserver(controller);
+                map.put(identifier, controller);
                 return controllerClass.cast(controller);
             } catch (NoSuchMethodException e) {
                 e.printStackTrace();

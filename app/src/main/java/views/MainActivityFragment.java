@@ -25,6 +25,7 @@ public class MainActivityFragment extends PMFragment {
     EditText    address1;
     EditText    address2;
     EditText    city;
+    Button      testAsyncDataFetchButton;
     Button      launchFragmentBtn;
 
     public MainActivityFragment() {
@@ -34,7 +35,7 @@ public class MainActivityFragment extends PMFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        controller = GlobalControllerFactory.getInstance().getControllerForFragment(this, AddressController.class);
+        controller = GlobalControllerFactory.getInstance().getControllerForLifecycleOwner(this, AddressController.class);
         getLifecycle().addObserver(controller);
     }
 
@@ -57,9 +58,9 @@ public class MainActivityFragment extends PMFragment {
         address1 = (EditText) v.findViewById(R.id.add1);
         address2 = (EditText) v.findViewById(R.id.add2);
         city = (EditText) v.findViewById(R.id.city);
-        launchFragmentBtn = (Button) v.findViewById(R.id.launchFragmentBtn);
+        testAsyncDataFetchButton = (Button) v.findViewById(R.id.fetchDataButton);
 
-        launchFragmentBtn.setOnClickListener(new View.OnClickListener() {
+        testAsyncDataFetchButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 controller.getSecondaryAddress(new DataFetchListener<UserModel>() {
@@ -75,6 +76,15 @@ public class MainActivityFragment extends PMFragment {
                 });
             }
         });
+
+        launchFragmentBtn = (Button) v.findViewById(R.id.launchFragmentBtn);
+
+        launchFragmentBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+            }
+        });
+
     }
 
     @Override
