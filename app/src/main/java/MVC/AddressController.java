@@ -6,8 +6,6 @@ import android.arch.lifecycle.OnLifecycleEvent;
 
 import java.lang.ref.WeakReference;
 
-import views.PMFragment;
-
 import static java.lang.Thread.sleep;
 
 /**

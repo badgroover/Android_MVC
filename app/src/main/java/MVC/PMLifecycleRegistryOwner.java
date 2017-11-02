@@ -1,15 +1,10 @@
 package MVC;
 
-import android.arch.lifecycle.Lifecycle;
-import android.arch.lifecycle.LifecycleObserver;
-import android.arch.lifecycle.LifecycleOwner;
-import android.arch.lifecycle.LifecycleRegistry;
 import android.arch.lifecycle.LifecycleRegistryOwner;
-import android.support.annotation.NonNull;
 
 import java.util.UUID;
 
-import views.PMActivity;
+import PMViews.PMActivity;
 
 /**
  * Created by nsohoni on 01/11/17.

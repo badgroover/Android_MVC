@@ -1,17 +1,9 @@
-package views;
+package PMViews;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.EditText;
-
-import MVC.AddressController;
-import MVC.DataFetchListener;
-import MVC.GlobalControllerFactory;
-import MVC.UserModel;
-import lifecycle.MyLifecycleObserver;
 
 /**
  * Created by nsohoni on 30/10/17.

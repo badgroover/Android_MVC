@@ -1,4 +1,4 @@
-package views;
+package PMViews;
 
 import android.arch.lifecycle.LifecycleRegistry;
 import android.os.Bundle;
