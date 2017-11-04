@@ -1,4 +1,4 @@
-package PMViews;
+package pm_views;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;

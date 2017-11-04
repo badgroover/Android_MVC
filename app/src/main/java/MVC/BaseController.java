@@ -8,7 +8,7 @@ import android.support.v4.app.FragmentActivity;
 
 import java.lang.ref.WeakReference;
 
-import PMViews.PMActivity;
+import pm_views.PMActivity;
 
 /**
  * Created by nsohoni on 14/10/17.

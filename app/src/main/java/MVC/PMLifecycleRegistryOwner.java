@@ -4,7 +4,7 @@ import android.arch.lifecycle.LifecycleRegistryOwner;
 
 import java.util.UUID;
 
-import PMViews.PMActivity;
+import pm_views.PMActivity;
 
 /**
  * Created by nsohoni on 01/11/17.
