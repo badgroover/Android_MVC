@@ -17,6 +17,7 @@ import pm_views.PMActivity;
 public abstract class BaseController implements LifecycleObserver {
 
     PM_Model model;
+    int testGit;
     WeakReference<PMLifecycleRegistryOwner>   lifecycleRegistryOwner;
     Object                      mutex = new Object();
     boolean                     isControllerAlive = false;
