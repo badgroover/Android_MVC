@@ -1,4 +1,4 @@
-package PMViews;
+package pm_views;
 
 import java.util.ArrayList;
 
