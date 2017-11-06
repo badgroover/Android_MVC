@@ -48,52 +48,55 @@ public class AddressController extends BaseController {
 
     private void fetchData() {
         //Start a thread to get data
-        PMLifecycleRegistryOwner owner = getLifecycleOwner();
+        final PMLifecycleRegistryOwner owner = getLifecycleOwner();
         if(owner != null) {
             //frag.showProgressDialogWithMessage("Loading");
-            TestThread thread = new TestThread();
-            new Thread(thread).start();
+            MockApi.getData(new MockApi.ResponseHandler() {
+                @Override
+                public void onSuccess() {
+                    if(isControllerAlive() && owner != null) {
+                        UserModel m = new UserModel();
+                        m.name = "Nikhil Sohoni";
+                        m.address1 = "591 W. Remington Dr";
+                        m.address2 = "APt 211";
+                        m.city = "Sunnyvale";
+                        model = m;
+                        updateViews();
+                    }
+                }
+                @Override
+                public void onError() {
 
+                }
+            });
         }
 
     }
 
     public void getSecondaryAddress(DataFetchListener<UserModel> listener) {
         final WeakReference<DataFetchListener> weakListener = new WeakReference<DataFetchListener>(listener);
-        Runnable r = new Runnable() {
+        MockApi.getData(new MockApi.ResponseHandler() {
             @Override
-            public void run() {
-                try {
-                    sleep(7000);
-                    PMLifecycleRegistryOwner owner = getLifecycleOwner();
-                    if(isControllerAlive() && owner != null) {
-                        Activity activity = owner.getOwnerActivity();
-                        if(activity != null && !activity.isFinishing()) {
-                            activity.runOnUiThread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    UserModel m = new UserModel();
-                                    m.name = new String("Sapna Sohoni");
-                                    m.address1 = new String("591 W. Remington Dr");
-                                    m.address2 = new String("APt 211");
-                                    m.city = new String("Fremont");
-                                    model = m;
-                                    DataFetchListener<UserModel> l = weakListener.get();
-                                    if(l != null) {
-                                        l.success((UserModel)model);
-                                    }
-                                }
-                            });
-                        }
+            public void onSuccess() {
+                PMLifecycleRegistryOwner owner = getLifecycleOwner();
+                if(isControllerAlive() && owner != null) {
+                    UserModel m = new UserModel();
+                    m.name = "Sapna Sohoni";
+                    m.address1 = "591 W. Remington Dr";
+                    m.address2 = "APt 211";
+                    m.city = "Fremont";
+                    model = m;
+                    DataFetchListener<UserModel> l = weakListener.get();
+                    if(l != null) {
+                        l.success((UserModel)model);
                     }
-
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
                 }
+            }
+            @Override
+            public void onError() {
 
             }
-        };
-        new Thread(r).start();
+        });
     }
 
     class TestThread implements Runnable {
@@ -101,24 +104,8 @@ public class AddressController extends BaseController {
         public void run() {
             try {
                 sleep(7000);
-                PMLifecycleRegistryOwner owner = getLifecycleOwner();
-                if(isControllerAlive() && owner != null) {
-                    Activity activity = owner.getOwnerActivity();
-                    if(activity != null && !activity.isFinishing()) {
-                        activity.runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                UserModel m = new UserModel();
-                                m.name = new String("Nikhil Sohoni");
-                                m.address1 = new String("591 W. Remington Dr");
-                                m.address2 = new String("APt 211");
-                                m.city = new String("Sunnyvale");
-                                model = m;
-                                updateViews();
-                            }
-                        });
-                    }
-                }
+
+
 
                 } catch (InterruptedException e) {
                 e.printStackTrace();
