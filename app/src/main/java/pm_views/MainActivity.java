@@ -10,6 +10,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import lifecycle.MyActivityLifecycleObserver;
+import pm_views.flows.PageOneFragment;
 
 public class MainActivity extends PMActivity {
 
@@ -60,7 +61,7 @@ public class MainActivity extends PMActivity {
     }
 
     private void launchFragment2() {
-        AutoCloseFragment fragment = new AutoCloseFragment();
+        PMFragment fragment = new PageOneFragment();
         FragmentManager fm = getSupportFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
         ft.replace(R.id.fragmentContainer, fragment);
