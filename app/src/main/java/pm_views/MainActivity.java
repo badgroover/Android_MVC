@@ -60,10 +60,10 @@ public class MainActivity extends PMActivity {
     }
 
     private void launchFragment2() {
-        SecondFragment fragment = new SecondFragment();
+        AutoCloseFragment fragment = new AutoCloseFragment();
         FragmentManager fm = getSupportFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
-        ft.add(R.id.fragmentContainer, fragment);
+        ft.replace(R.id.fragmentContainer, fragment);
         ft.addToBackStack("f2");
         ft.commit();
     }
