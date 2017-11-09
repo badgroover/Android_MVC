@@ -9,8 +9,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import MVC.BaseController;
+import MVC.GlobalControllerFactory;
 import pm_views.PMFragment;
 import pm_views.R;
+import pm_views.flows.flow_controllers.PageThreeController;
 
 /**
  * Created by shrikanth on 11/6/17.
@@ -20,9 +23,11 @@ public class PageThreeFragment extends PMFragment{
 
 
     Button click;
+    PageThreeController controller;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        controller = GlobalControllerFactory.getInstance().createControllerForLifecycleOwner(this, PageThreeController.class);
     }
 
     @Nullable
@@ -60,8 +65,11 @@ public class PageThreeFragment extends PMFragment{
     }
 
     private void passBack(){
-        /*
-        Result passing back - flows 
-         */
+        BaseController targetController = getTargetController();
+        if(targetController != null) {
+            Bundle b = new Bundle();
+            b.putString("Result", "Result Data");
+            targetController.setResultData(b);
+        }
     }
 }

@@ -9,8 +9,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import MVC.GlobalControllerFactory;
 import pm_views.PMFragment;
 import pm_views.R;
+import pm_views.flows.flow_controllers.PageOneController;
+import pm_views.flows.flow_controllers.PageTwoController;
 
 /**
  * Created by shrikanth on 11/6/17.
@@ -20,9 +23,11 @@ public class PageTwoFragment extends PMFragment{
 
 
     Button click;
+    PageTwoController controller;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        controller = GlobalControllerFactory.getInstance().createControllerForLifecycleOwner(this, PageTwoController.class);
     }
 
     @Nullable
@@ -38,7 +43,7 @@ public class PageTwoFragment extends PMFragment{
         click.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                launchNext();
+                getOwnerActivity().launchFragmentForResult(PageThreeFragment.class, controller);
             }
         });
     }
@@ -59,12 +64,4 @@ public class PageTwoFragment extends PMFragment{
         super.setupViews();
     }
 
-    private void launchNext(){
-        PageThreeFragment fragment = new PageThreeFragment();
-        FragmentManager fm = getOwnerActivity().getSupportFragmentManager();
-        FragmentTransaction ft = fm.beginTransaction();
-        ft.replace(R.id.fragmentContainer, fragment);
-        ft.addToBackStack(null);
-        ft.commit();
-    }
 }

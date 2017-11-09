@@ -3,6 +3,7 @@ package MVC;
 import android.arch.lifecycle.Lifecycle;
 import android.arch.lifecycle.LifecycleObserver;
 import android.arch.lifecycle.OnLifecycleEvent;
+import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 
 
@@ -16,11 +17,11 @@ import pm_views.PMActivity;
 
 public abstract class BaseController implements LifecycleObserver {
 
-    PM_Model model;
-    int testGit;
-    WeakReference<PMLifecycleRegistryOwner>   lifecycleRegistryOwner;
-    Object                      mutex = new Object();
-    boolean                     isControllerAlive = false;
+    PM_Model                                model;
+    WeakReference<PMLifecycleRegistryOwner> lifecycleRegistryOwner;
+    Object                                  mutex = new Object();
+    boolean                                 isControllerAlive = false;
+    Bundle                                  resultData;
 
 
     public BaseController(PMLifecycleRegistryOwner lifecycleOwner) {
@@ -102,5 +103,10 @@ public abstract class BaseController implements LifecycleObserver {
 
     public void setLifecycleRegistryOwner(PMLifecycleRegistryOwner owner) {
         lifecycleRegistryOwner = new WeakReference(owner);
+    }
+
+    public void setResultData(Bundle b) {
+        resultData = b;
+
     }
 }

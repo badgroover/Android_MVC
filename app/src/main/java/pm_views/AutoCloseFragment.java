@@ -5,7 +5,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import MVC.AddressController;
 import MVC.AutoCloseFragmentConrtoller;
 import MVC.GlobalControllerFactory;
 
@@ -20,7 +19,7 @@ public class AutoCloseFragment extends PMFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        controller = GlobalControllerFactory.getInstance().getControllerForLifecycleOwner(this, AutoCloseFragmentConrtoller.class);
+        controller = GlobalControllerFactory.getInstance().createControllerForLifecycleOwner(this, AutoCloseFragmentConrtoller.class);
         getLifecycle().addObserver(controller);
     }
 

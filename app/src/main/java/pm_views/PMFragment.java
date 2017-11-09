@@ -6,6 +6,7 @@ import android.support.v4.app.Fragment;
 
 import java.util.UUID;
 
+import MVC.BaseController;
 import MVC.PMLifecycleRegistryOwner;
 import MVC.ViewInterface;
 
@@ -16,7 +17,8 @@ import MVC.ViewInterface;
 public class PMFragment extends Fragment implements PMLifecycleRegistryOwner, ViewInterface {
 
     UUID                fragmentId;
-    LifecycleRegistry mLifecycleRegistry = new LifecycleRegistry(this);
+    LifecycleRegistry   mLifecycleRegistry = new LifecycleRegistry(this);
+    BaseController      targetController;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -64,5 +66,13 @@ public class PMFragment extends Fragment implements PMLifecycleRegistryOwner, Vi
     @Override
     public PMActivity getOwnerActivity() {
         return (PMActivity) getActivity();
+    }
+
+    public void setTargetController(BaseController targetController) {
+        this.targetController = targetController;
+    }
+
+    public BaseController getTargetController() {
+        return targetController;
     }
 }

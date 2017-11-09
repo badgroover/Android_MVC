@@ -3,9 +3,12 @@ package pm_views;
 import android.arch.lifecycle.LifecycleRegistry;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 
 import java.util.UUID;
 
+import MVC.BaseController;
 import MVC.PMLifecycleRegistryOwner;
 
 /**
@@ -65,4 +68,44 @@ public class PMActivity extends FragmentActivity implements PMLifecycleRegistryO
     public boolean isStateSaved() {
         return isStateSaved;
     }
+
+    public void launchFragment(Class fragmentClass) {
+        PMFragment fragment;
+        try {
+            fragment = (PMFragment) fragmentClass.newInstance();
+            FragmentManager fm = getSupportFragmentManager();
+            int count = fm.getBackStackEntryCount();
+            FragmentTransaction ft = fm.beginTransaction();
+            ft.replace(R.id.fragmentContainer, fragment);
+            ft.addToBackStack(Integer.toString(count + 1));
+            ft.commit();
+
+        } catch (InstantiationException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    public void launchFragmentForResult(Class fragmentClass, BaseController targetController) {
+        PMFragment fragment;
+        try {
+            fragment = (PMFragment) fragmentClass.newInstance();
+            fragment.setTargetController(targetController);
+            FragmentManager fm = getSupportFragmentManager();
+            int count = fm.getBackStackEntryCount();
+            FragmentTransaction ft = fm.beginTransaction();
+            ft.replace(R.id.fragmentContainer, fragment);
+            ft.addToBackStack(Integer.toString(count + 1));
+            ft.commit();
+
+        } catch (InstantiationException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        }
+
+    }
+
 }

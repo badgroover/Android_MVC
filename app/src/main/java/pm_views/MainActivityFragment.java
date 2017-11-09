@@ -35,7 +35,7 @@ public class MainActivityFragment extends PMFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        controller = GlobalControllerFactory.getInstance().getControllerForLifecycleOwner(this, AddressController.class);
+        controller = GlobalControllerFactory.getInstance().createControllerForLifecycleOwner(this, AddressController.class);
         getLifecycle().addObserver(controller);
     }
 
