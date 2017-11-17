@@ -4,11 +4,16 @@ import android.arch.lifecycle.Lifecycle;
 import android.arch.lifecycle.LifecycleObserver;
 import android.arch.lifecycle.OnLifecycleEvent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
+import android.os.Message;
 import android.support.v4.app.FragmentActivity;
 
 
 import java.lang.ref.WeakReference;
+import java.util.ArrayDeque;
 import java.util.HashMap;
+import java.util.Queue;
 
 import pm_views.PMActivity;
 
@@ -23,7 +28,7 @@ public abstract class BaseController implements LifecycleObserver {
     Object                                  mutex = new Object();
     boolean                                 isControllerAlive = false;
     Bundle                                  resultData;
-
+    Queue<UIQueueCallback> uiQueue = new ArrayDeque<>();
 
     public BaseController(PMLifecycleRegistryOwner lifecycleOwner) {
         isControllerAlive = true;
@@ -45,6 +50,14 @@ public abstract class BaseController implements LifecycleObserver {
         if(owner != null) {
             owner.setupViews();
         }
+        Handler h = new Handler(Looper.getMainLooper(), new Handler.Callback() {
+            @Override
+            public boolean handleMessage(Message msg) {
+                flushUIQueue();
+                return false;
+            }
+        });
+        h.sendEmptyMessage(0);
     }
 
     @OnLifecycleEvent(Lifecycle.Event.ON_PAUSE)
@@ -112,4 +125,27 @@ public abstract class BaseController implements LifecycleObserver {
     }
 
     public abstract void setResultData(int requestCode, int resultOk, HashMap<String, Object> results);
+
+    protected void postToUIQueue(UIQueueCallback callback){
+        addToQueue(callback);
+        if(isControllerAlive &&
+                getLifecycleOwner().getLifecycle().getCurrentState().isAtLeast(Lifecycle.State.RESUMED)){
+            flushUIQueue();
+        }
+    }
+    private void addToQueue(UIQueueCallback callback){
+        uiQueue.add(callback);
+    }
+
+    private void flushUIQueue(){
+        for(UIQueueCallback callback: uiQueue){
+            callback.run();
+            uiQueue.remove(callback);
+        }
+    }
+
+    protected interface UIQueueCallback{
+        void run();
+    }
+
 }

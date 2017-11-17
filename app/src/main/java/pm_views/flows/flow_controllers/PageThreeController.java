@@ -42,7 +42,13 @@ public class PageThreeController extends BaseController {
                     Bundle b = new Bundle();
                     b.putString("Result", "Result Data");
                     controller.setResultData(requestCode, Activity.RESULT_OK, results);
-                    owner.getOwnerActivity().onBackPressed();
+                    postToUIQueue(new UIQueueCallback() {
+                        @Override
+                        public void run() {
+                            PMLifecycleRegistryOwner owner = getLifecycleOwner();
+                            owner.getOwnerActivity().onBackPressed();
+                        }
+                    });
                 }
             }
 
