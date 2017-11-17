@@ -15,4 +15,8 @@ public interface PMLifecycleRegistryOwner extends LifecycleRegistryOwner{
     void        setupViews();
     PMActivity  getOwnerActivity();
     UUID        getIdentifier();
+    void        markForDeath();
+    boolean     isMarkedForDeath();
+    UUID        getTargetControllerId();
+    int         getRequestCode();
 }

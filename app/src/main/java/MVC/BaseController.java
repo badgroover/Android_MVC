@@ -8,6 +8,7 @@ import android.support.v4.app.FragmentActivity;
 
 
 import java.lang.ref.WeakReference;
+import java.util.HashMap;
 
 import pm_views.PMActivity;
 
@@ -109,4 +110,6 @@ public abstract class BaseController implements LifecycleObserver {
         resultData = b;
 
     }
+
+    public abstract void setResultData(int requestCode, int resultOk, HashMap<String, Object> results);
 }

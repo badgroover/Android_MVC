@@ -18,7 +18,9 @@ public class PMFragment extends Fragment implements PMLifecycleRegistryOwner, Vi
 
     UUID                fragmentId;
     LifecycleRegistry   mLifecycleRegistry = new LifecycleRegistry(this);
-    BaseController      targetController;
+    UUID                targetControllerId;
+    int                 requestCode;
+    boolean             bIsMarkedForDeath = false;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -55,6 +57,17 @@ public class PMFragment extends Fragment implements PMLifecycleRegistryOwner, Vi
     public UUID getIdentifier() {
         return fragmentId;
     }
+
+    @Override
+    public void markForDeath() {
+        bIsMarkedForDeath = true;
+    }
+
+    @Override
+    public boolean isMarkedForDeath() {
+        return bIsMarkedForDeath;
+    }
+
     public boolean isFragmentVisible() {
         if(isVisible() && isAdded()) {
             return true;
@@ -68,11 +81,17 @@ public class PMFragment extends Fragment implements PMLifecycleRegistryOwner, Vi
         return (PMActivity) getActivity();
     }
 
-    public void setTargetController(BaseController targetController) {
-        this.targetController = targetController;
+    public void setTargetController(UUID targetControllerId, int requestCode) {
+        this.targetControllerId = targetControllerId;
+        this.requestCode = requestCode;
     }
 
-    public BaseController getTargetController() {
-        return targetController;
+    public UUID getTargetControllerId() {
+        return targetControllerId;
     }
+
+    public int getRequestCode() {
+        return requestCode;
+    }
+
 }

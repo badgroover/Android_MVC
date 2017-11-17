@@ -2,8 +2,6 @@ package pm_views.flows;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,7 +10,6 @@ import android.widget.Button;
 import MVC.GlobalControllerFactory;
 import pm_views.PMFragment;
 import pm_views.R;
-import pm_views.flows.flow_controllers.PageOneController;
 import pm_views.flows.flow_controllers.PageTwoController;
 
 /**
@@ -24,6 +21,7 @@ public class PageTwoFragment extends PMFragment{
 
     Button click;
     PageTwoController controller;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,7 +41,7 @@ public class PageTwoFragment extends PMFragment{
         click.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getOwnerActivity().launchFragmentForResult(PageThreeFragment.class, controller);
+                getOwnerActivity().launchFragmentForResult(PageThreeFragment.class, getIdentifier(), PageTwoController.REQUEST_CODE_B);
             }
         });
     }

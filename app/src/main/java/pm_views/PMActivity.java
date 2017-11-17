@@ -20,6 +20,7 @@ public class PMActivity extends FragmentActivity implements PMLifecycleRegistryO
     private final LifecycleRegistry mRegistry = new LifecycleRegistry(this);
     boolean isStateSaved = false;
     UUID    activityId;
+    int     count = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,6 +31,26 @@ public class PMActivity extends FragmentActivity implements PMLifecycleRegistryO
             activityId = UUID.randomUUID();
         }
 
+    }
+
+    @Override
+    public void onBackPressed() {
+        FragmentManager fm = getSupportFragmentManager();
+        int count = fm.getBackStackEntryCount();
+        if(count == 0) {
+            finish();
+        } else {
+            PMFragment fragment = (PMFragment) fm.findFragmentByTag(Integer.toString(count));
+            fragment.markForDeath();
+            //lets pop all fragments that have been marked.
+            for(int i = count; i>0; i--) {
+                fragment = (PMFragment) fm.findFragmentByTag(Integer.toString(i));
+                if(fragment.isMarkedForDeath()) {
+                    fm.popBackStackImmediate();
+                }
+                count--;
+            }
+        }
     }
 
     @Override
@@ -64,6 +85,26 @@ public class PMActivity extends FragmentActivity implements PMLifecycleRegistryO
         return null;
     }
 
+    @Override
+    public void markForDeath() {
+
+    }
+
+    @Override
+    public boolean isMarkedForDeath() {
+        return false;
+    }
+
+    @Override
+    public UUID getTargetControllerId() {
+        return null;
+    }
+
+    @Override
+    public int getRequestCode() {
+        return -1;
+    }
+
 
     public boolean isStateSaved() {
         return isStateSaved;
@@ -76,7 +117,7 @@ public class PMActivity extends FragmentActivity implements PMLifecycleRegistryO
             FragmentManager fm = getSupportFragmentManager();
             int count = fm.getBackStackEntryCount();
             FragmentTransaction ft = fm.beginTransaction();
-            ft.replace(R.id.fragmentContainer, fragment);
+            ft.replace(R.id.fragmentContainer, fragment, Integer.toString(count + 1));
             ft.addToBackStack(Integer.toString(count + 1));
             ft.commit();
 
@@ -88,15 +129,15 @@ public class PMActivity extends FragmentActivity implements PMLifecycleRegistryO
 
     }
 
-    public void launchFragmentForResult(Class fragmentClass, BaseController targetController) {
+    public void launchFragmentForResult(Class fragmentClass, UUID targetControllerID, int requestCode) {
         PMFragment fragment;
         try {
             fragment = (PMFragment) fragmentClass.newInstance();
-            fragment.setTargetController(targetController);
+            fragment.setTargetController(targetControllerID, requestCode);
             FragmentManager fm = getSupportFragmentManager();
             int count = fm.getBackStackEntryCount();
             FragmentTransaction ft = fm.beginTransaction();
-            ft.replace(R.id.fragmentContainer, fragment);
+            ft.replace(R.id.fragmentContainer, fragment, Integer.toString(count + 1));
             ft.addToBackStack(Integer.toString(count + 1));
             ft.commit();
 
@@ -105,7 +146,17 @@ public class PMActivity extends FragmentActivity implements PMLifecycleRegistryO
         } catch (IllegalAccessException e) {
             e.printStackTrace();
         }
+    }
 
+    public void launchController(Class controllerClass) {
+        BaseController controller;
+        try {
+            controller = (BaseController) controllerClass.newInstance();
+        } catch (InstantiationException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        }
     }
 
 }

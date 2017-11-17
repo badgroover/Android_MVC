@@ -5,6 +5,7 @@ import android.arch.lifecycle.Lifecycle;
 import android.arch.lifecycle.OnLifecycleEvent;
 
 import java.lang.ref.WeakReference;
+import java.util.HashMap;
 
 import static java.lang.Thread.sleep;
 
@@ -24,7 +25,10 @@ public class AddressController extends BaseController {
         populateModel(false);
     }
 
-
+    @Override
+    public void setResultData(int requestCode, int resultCode, HashMap<String, Object> results) {
+        //handle the results here
+    }
 
 
     public void populateModel(boolean refresh) {

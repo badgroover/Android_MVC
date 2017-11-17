@@ -2,6 +2,8 @@ package MVC;
 
 import android.arch.lifecycle.Lifecycle;
 
+import java.util.HashMap;
+
 import pm_views.PMActivity;
 
 /**
@@ -12,6 +14,11 @@ public class AutoCloseFragmentConrtoller extends BaseController {
 
     public AutoCloseFragmentConrtoller(PMLifecycleRegistryOwner lifecycleOwner) {
         super(lifecycleOwner);
+    }
+
+    @Override
+    public void setResultData(int requestCode, int resultOk, HashMap<String, Object> results) {
+
     }
 
 

@@ -37,6 +37,16 @@ public class GlobalControllerFactory {
         }
     }
 
+    public BaseController   getControllerForLifecycleOwner(UUID ownerId) {
+        BaseController controller;
+        if(map.containsKey(ownerId)) {
+            controller = map.get(ownerId);
+            return controller;
+        } else {
+            return null;
+        }
+    }
+
     public <T extends BaseController> T createControllerForLifecycleOwner(PMLifecycleRegistryOwner owner, Class<T> controllerClass) {
         BaseController controller;
         UUID identifier = owner.getIdentifier();

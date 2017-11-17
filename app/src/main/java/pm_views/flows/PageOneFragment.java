@@ -44,7 +44,7 @@ public class PageOneFragment extends PMFragment{
         click.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getOwnerActivity().launchFragmentForResult(PageTwoFragment.class, controller);
+                getOwnerActivity().launchFragmentForResult(PageTwoFragment.class, getIdentifier(), PageOneController.REQUEST_CODE_A);
             }
         });
     }

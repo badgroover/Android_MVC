@@ -1,5 +1,6 @@
 package pm_views.flows;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentManager;
@@ -8,6 +9,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+
+import java.util.HashMap;
 
 import MVC.BaseController;
 import MVC.GlobalControllerFactory;
@@ -65,11 +68,6 @@ public class PageThreeFragment extends PMFragment{
     }
 
     private void passBack(){
-        BaseController targetController = getTargetController();
-        if(targetController != null) {
-            Bundle b = new Bundle();
-            b.putString("Result", "Result Data");
-            targetController.setResultData(b);
-        }
+        controller.passBackResults();
     }
 }
