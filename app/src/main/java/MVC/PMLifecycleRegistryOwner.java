@@ -19,4 +19,6 @@ public interface PMLifecycleRegistryOwner extends LifecycleRegistryOwner{
     boolean     isMarkedForDeath();
     UUID        getTargetControllerId();
     int         getRequestCode();
+
+    void        kill();
 }

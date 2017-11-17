@@ -18,11 +18,11 @@ import pm_views.PMActivity;
 
 public abstract class BaseController implements LifecycleObserver {
 
-    PM_Model                                model;
-    WeakReference<PMLifecycleRegistryOwner> lifecycleRegistryOwner;
-    Object                                  mutex = new Object();
-    boolean                                 isControllerAlive = false;
-    Bundle                                  resultData;
+    private PM_Model                                model;
+    private WeakReference<PMLifecycleRegistryOwner> lifecycleRegistryOwner;
+    private Object                                  mutex = new Object();
+    private boolean                                 isControllerAlive = false;
+    protected HashMap<String, Object>               resultDataMap;
 
 
     public BaseController(PMLifecycleRegistryOwner lifecycleOwner) {
@@ -43,7 +43,11 @@ public abstract class BaseController implements LifecycleObserver {
     public void onResume() {
         PMLifecycleRegistryOwner owner = getLifecycleOwner();
         if(owner != null) {
-            owner.setupViews();
+            if(owner.isMarkedForDeath()) {
+
+            } else {
+                owner.setupViews();
+            }
         }
     }
 
@@ -106,10 +110,15 @@ public abstract class BaseController implements LifecycleObserver {
         lifecycleRegistryOwner = new WeakReference(owner);
     }
 
-    public void setResultData(Bundle b) {
-        resultData = b;
-
+    public void exit() {
+        //Exiting a controller is done by exiting/removing the attached LifeCycleOwner.
+        //This in turn will remove the controller in the correct order
+        PMLifecycleRegistryOwner owner = getLifecycleOwner();
+        if(owner.getLifecycle().getCurrentState().isAtLeast(Lifecycle.State.RESUMED)) {
+            owner.kill();
+        }
     }
+
 
     public abstract void setResultData(int requestCode, int resultOk, HashMap<String, Object> results);
 }

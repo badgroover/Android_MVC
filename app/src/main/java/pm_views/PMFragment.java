@@ -94,4 +94,12 @@ public class PMFragment extends Fragment implements PMLifecycleRegistryOwner, Vi
         return requestCode;
     }
 
+    @Override
+    public void kill() {
+        PMActivity parent = getOwnerActivity();
+        if(parent != null) {
+            parent.onBackPressed();
+        }
+    }
+
 }

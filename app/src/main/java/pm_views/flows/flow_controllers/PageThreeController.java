@@ -1,6 +1,7 @@
 package pm_views.flows.flow_controllers;
 
 import android.app.Activity;
+import android.arch.lifecycle.Lifecycle;
 import android.os.Bundle;
 
 import java.util.HashMap;
@@ -30,20 +31,10 @@ public class PageThreeController extends BaseController {
         MockApi.getData(new MockApi.ResponseHandler() {
             @Override
             public void onSuccess() {
-                PMLifecycleRegistryOwner owner = getLifecycleOwner();
-                if(isControllerAlive() && owner != null) {
-                    UUID targetId = owner.getTargetControllerId();
-                    int  requestCode = owner.getRequestCode();
-                    //find the controller
-                    BaseController controller = GlobalControllerFactory.getInstance().getControllerForLifecycleOwner(targetId);
-                    HashMap<String, Object> results = new HashMap<>();
-                    results.put("Result_1", "Result Data 1");
-                    results.put("Result_2", "Result Data 1");
-                    Bundle b = new Bundle();
-                    b.putString("Result", "Result Data");
-                    controller.setResultData(requestCode, Activity.RESULT_OK, results);
-                    owner.getOwnerActivity().onBackPressed();
-                }
+                HashMap<String, Object> results = new HashMap<>();
+                results.put("Result_1", "Result Data 1");
+                results.put("Result_2", "Result Data 1");
+                returnResults(results, Activity.RESULT_OK);
             }
 
             @Override
@@ -53,5 +44,20 @@ public class PageThreeController extends BaseController {
         });
 
     }
+
+    public void returnResults(HashMap<String, Object> hashMap, int returnCode) {
+        PMLifecycleRegistryOwner owner = getLifecycleOwner();
+        if(isControllerAlive() && owner.getLifecycle().getCurrentState().isAtLeast(Lifecycle.State.RESUMED)) {
+            UUID targetId = owner.getTargetControllerId();
+            int requestCode = owner.getRequestCode();
+            BaseController controller = GlobalControllerFactory.getInstance().getControllerForLifecycleOwner(targetId);
+            controller.setResultData(requestCode, returnCode, hashMap);
+            exit();
+        } else {
+            resultDataMap = hashMap;
+            owner.markForDeath();
+        }
+    }
+
 }
 
