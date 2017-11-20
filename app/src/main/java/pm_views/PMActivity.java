@@ -86,23 +86,18 @@ public class PMActivity extends FragmentActivity implements PMLifecycleRegistryO
     }
 
     @Override
-    public void markForDeath() {
-
-    }
-
-    @Override
-    public boolean isMarkedForDeath() {
-        return false;
-    }
-
-    @Override
-    public UUID getTargetControllerId() {
+    public UUID getTargetLifecycleOwner() {
         return null;
     }
 
     @Override
     public int getRequestCode() {
         return -1;
+    }
+
+    @Override
+    public void kill() {
+        finish();
     }
 
 

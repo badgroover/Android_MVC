@@ -2,7 +2,6 @@ package pm_views.flows.flow_controllers;
 
 import android.app.Activity;
 import android.arch.lifecycle.Lifecycle;
-import android.os.Bundle;
 
 import java.util.HashMap;
 import java.util.UUID;
@@ -47,15 +46,14 @@ public class PageThreeController extends BaseController {
 
     public void returnResults(HashMap<String, Object> hashMap, int returnCode) {
         PMLifecycleRegistryOwner owner = getLifecycleOwner();
+        UUID targetId = owner.getTargetLifecycleOwner();
+        int requestCode = owner.getRequestCode();
+        BaseController controller = GlobalControllerFactory.getInstance().getControllerForLifecycleOwner(targetId);
+        controller.setResultData(requestCode, returnCode, hashMap);
         if(isControllerAlive() && owner.getLifecycle().getCurrentState().isAtLeast(Lifecycle.State.RESUMED)) {
-            UUID targetId = owner.getTargetControllerId();
-            int requestCode = owner.getRequestCode();
-            BaseController controller = GlobalControllerFactory.getInstance().getControllerForLifecycleOwner(targetId);
-            controller.setResultData(requestCode, returnCode, hashMap);
-            exit();
+            queueExit();
         } else {
-            resultDataMap = hashMap;
-            owner.markForDeath();
+            markForDeath();
         }
     }
 

@@ -88,6 +88,20 @@ public class MainActivityFragment extends PMFragment {
     }
 
     @Override
+    protected boolean isMarkedForDeath() {
+        if(controller != null && controller.isControllerAlive()) {
+            return controller.isMarkedForDeath();
+        } else {
+            return false;
+        }
+    }
+
+    @Override
+    protected void markForDeath() {
+
+    }
+
+    @Override
     public void updateViews() {
         //called by the controller when the model has been updated.
         UserModel model = controller.getModel(UserModel.class);

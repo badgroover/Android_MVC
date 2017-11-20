@@ -4,6 +4,9 @@ import android.arch.lifecycle.Lifecycle;
 import android.arch.lifecycle.LifecycleObserver;
 import android.arch.lifecycle.OnLifecycleEvent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
+import android.os.Message;
 import android.support.v4.app.FragmentActivity;
 
 
@@ -18,11 +21,22 @@ import pm_views.PMActivity;
 
 public abstract class BaseController implements LifecycleObserver {
 
-    private PM_Model                                model;
+    protected PM_Model                              model;
     private WeakReference<PMLifecycleRegistryOwner> lifecycleRegistryOwner;
     private Object                                  mutex = new Object();
     private boolean                                 isControllerAlive = false;
-    protected HashMap<String, Object>               resultDataMap;
+    boolean                                         bIsMarkedForDeath = false;
+    protected enum MESSAGE_TYPE {EXIT};
+
+    Handler h = new Handler(Looper.getMainLooper(), new Handler.Callback() {
+        @Override
+        public boolean handleMessage(Message msg) {
+            switch(msg.what) {
+                case 1:
+                    exit();
+            }
+            return false;
+        } });
 
 
     public BaseController(PMLifecycleRegistryOwner lifecycleOwner) {
@@ -43,8 +57,8 @@ public abstract class BaseController implements LifecycleObserver {
     public void onResume() {
         PMLifecycleRegistryOwner owner = getLifecycleOwner();
         if(owner != null) {
-            if(owner.isMarkedForDeath()) {
-
+            if(isMarkedForDeath()) {
+                queueExit();
             } else {
                 owner.setupViews();
             }
@@ -63,7 +77,7 @@ public abstract class BaseController implements LifecycleObserver {
         PMLifecycleRegistryOwner owner = getLifecycleOwner();
         if(owner != null) {
             FragmentActivity activity = owner.getOwnerActivity();
-            if(activity != null) {
+            if(activity != null && (activity.isFinishing() || activity.isDestroyed())) {
                 if(!((PMActivity)activity).isStateSaved()) {
                     isControllerAlive = false;
                     GlobalControllerFactory.getInstance().remove(owner.getIdentifier());
@@ -110,6 +124,10 @@ public abstract class BaseController implements LifecycleObserver {
         lifecycleRegistryOwner = new WeakReference(owner);
     }
 
+    public void queueExit() {
+        h.sendEmptyMessage(1);
+    }
+
     public void exit() {
         //Exiting a controller is done by exiting/removing the attached LifeCycleOwner.
         //This in turn will remove the controller in the correct order
@@ -117,6 +135,14 @@ public abstract class BaseController implements LifecycleObserver {
         if(owner.getLifecycle().getCurrentState().isAtLeast(Lifecycle.State.RESUMED)) {
             owner.kill();
         }
+    }
+
+    public void markForDeath() {
+        bIsMarkedForDeath = true;
+    }
+
+    public boolean isMarkedForDeath() {
+        return bIsMarkedForDeath;
     }
 
 

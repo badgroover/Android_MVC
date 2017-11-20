@@ -6,7 +6,6 @@ import android.support.v4.app.Fragment;
 
 import java.util.UUID;
 
-import MVC.BaseController;
 import MVC.PMLifecycleRegistryOwner;
 import MVC.ViewInterface;
 
@@ -14,19 +13,23 @@ import MVC.ViewInterface;
  * Created by nsohoni on 16/10/17.
  */
 
-public class PMFragment extends Fragment implements PMLifecycleRegistryOwner, ViewInterface {
+public abstract class PMFragment extends Fragment implements PMLifecycleRegistryOwner, ViewInterface {
 
     UUID                fragmentId;
     LifecycleRegistry   mLifecycleRegistry = new LifecycleRegistry(this);
-    UUID                targetControllerId;
-    int                 requestCode;
-    boolean             bIsMarkedForDeath = false;
+    UUID                targetLifecycleOwner;
+    int                 requestCode = -1;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if(savedInstanceState != null) {
             fragmentId = UUID.fromString(savedInstanceState.getString("FRAGMENT_ID"));
+            String targetId = savedInstanceState.getString("TARGET_FRAGMENT_ID");
+            if(targetId != null) {
+                targetLifecycleOwner = UUID.fromString(targetId);
+            }
+            requestCode = savedInstanceState.getInt("REQUEST_CODE", -1);
         } else {
             fragmentId = UUID.randomUUID();
         }
@@ -36,6 +39,10 @@ public class PMFragment extends Fragment implements PMLifecycleRegistryOwner, Vi
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putString("FRAGMENT_ID", fragmentId.toString());
+        if(targetLifecycleOwner != null) {
+            outState.putString("TARGET_FRAGMENT_ID", targetLifecycleOwner.toString());
+        }
+        outState.putInt("REQUEST_CODE", requestCode);
     }
 
     @Override
@@ -58,16 +65,6 @@ public class PMFragment extends Fragment implements PMLifecycleRegistryOwner, Vi
         return fragmentId;
     }
 
-    @Override
-    public void markForDeath() {
-        bIsMarkedForDeath = true;
-    }
-
-    @Override
-    public boolean isMarkedForDeath() {
-        return bIsMarkedForDeath;
-    }
-
     public boolean isFragmentVisible() {
         if(isVisible() && isAdded()) {
             return true;
@@ -82,12 +79,12 @@ public class PMFragment extends Fragment implements PMLifecycleRegistryOwner, Vi
     }
 
     public void setTargetController(UUID targetControllerId, int requestCode) {
-        this.targetControllerId = targetControllerId;
+        this.targetLifecycleOwner = targetControllerId;
         this.requestCode = requestCode;
     }
 
-    public UUID getTargetControllerId() {
-        return targetControllerId;
+    public UUID getTargetLifecycleOwner() {
+        return targetLifecycleOwner;
     }
 
     public int getRequestCode() {
@@ -102,4 +99,7 @@ public class PMFragment extends Fragment implements PMLifecycleRegistryOwner, Vi
         }
     }
 
+    protected abstract boolean isMarkedForDeath();
+
+    protected abstract void markForDeath();
 }

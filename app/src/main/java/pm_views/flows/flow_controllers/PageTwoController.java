@@ -27,12 +27,12 @@ public class PageTwoController extends BaseController {
             case REQUEST_CODE_B:
                 PMLifecycleRegistryOwner owner = getLifecycleOwner();
                 if(isControllerAlive() && owner != null) {
-                    UUID targetId = owner.getTargetControllerId();
+                    UUID targetId = owner.getTargetLifecycleOwner();
                     int  targetRequestCode = owner.getRequestCode();
                     //find the controller
                     BaseController controller = GlobalControllerFactory.getInstance().getControllerForLifecycleOwner(targetId);
                     controller.setResultData(targetRequestCode, Activity.RESULT_OK, null);
-                    owner.markForDeath();
+                    markForDeath();
                 }
                 break;
 

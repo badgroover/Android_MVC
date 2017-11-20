@@ -24,6 +24,22 @@ public class AutoCloseFragment extends PMFragment {
     }
 
     @Override
+    protected boolean isMarkedForDeath() {
+        if(controller != null && controller.isControllerAlive()) {
+            return controller.isMarkedForDeath();
+        } else {
+            return false;
+        }
+    }
+
+    @Override
+    protected void markForDeath() {
+        if(controller != null && controller.isControllerAlive()) {
+            controller.markForDeath();
+        }
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_auto_close, container, false);
