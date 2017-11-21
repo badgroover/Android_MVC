@@ -58,7 +58,7 @@ public class GlobalControllerFactory {
         } else {
             Constructor<?> ctor = null;
             try {
-                ctor = controllerClass.getConstructor(owner.getClass());
+                ctor = controllerClass.getConstructor(owner.getClass().getInterfaces()[0]);
                 controller = (BaseController) ctor.newInstance(new Object[] { owner });
                 owner.getLifecycle().addObserver(controller);
                 map.put(identifier, controller);

@@ -22,7 +22,7 @@ import pm_views.PMActivity;
 public abstract class BaseController<L extends PMLifecycleRegistryOwner> implements LifecycleObserver {
 
     protected PM_Model                              model;
-    private WeakReference<L> lifecycleRegistryOwner;
+    private WeakReference<L>                        lifecycleRegistryOwner;
     private Object                                  mutex = new Object();
     private boolean                                 isControllerAlive = false;
     boolean                                         bIsMarkedForDeath = false;

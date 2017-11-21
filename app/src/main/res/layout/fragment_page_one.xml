@@ -27,4 +27,10 @@
         android:text="Click"
         android:id="@+id/click"/>
 
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Back from controller"
+        android:id="@+id/back_from_controller_test"/>
+
 </LinearLayout>
