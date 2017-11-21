@@ -47,7 +47,7 @@ public class GlobalControllerFactory {
         }
     }
 
-    public <T extends BaseController, L extends PMLifecycleRegistryOwner> T createControllerForLifecycleOwner(PMLifecycleRegistryOwner owner, Class<T> controllerClass) {
+    public <T extends BaseController> T createControllerForLifecycleOwner(PMLifecycleRegistryOwner owner, Class<T> controllerClass) {
         BaseController controller;
         UUID identifier = owner.getIdentifier();
         if(map.containsKey(identifier)) {
@@ -58,11 +58,17 @@ public class GlobalControllerFactory {
         } else {
             Constructor<?> ctor = null;
             try {
-                ctor = controllerClass.getConstructor(owner.getClass());
-                controller = (BaseController) ctor.newInstance(new Object[] { owner });
-                owner.getLifecycle().addObserver(controller);
-                map.put(identifier, controller);
-                return controllerClass.cast(controller);
+                Class clzz = owner.getViewInterface();
+                if(clzz.isAssignableFrom(owner.getClass())){
+                    ctor = controllerClass.getConstructor(owner.getViewInterface());
+                    controller = (BaseController) ctor.newInstance(new Object[] { owner });
+                    owner.getLifecycle().addObserver(controller);
+                    map.put(identifier, controller);
+                    return controllerClass.cast(controller);
+                }else{
+                    throw new RuntimeException("Class: " + owner.getClass() + " is not implementing " + owner.getViewInterface());
+                }
+
             } catch (NoSuchMethodException e) {
                 e.printStackTrace();
             } catch (IllegalAccessException e) {

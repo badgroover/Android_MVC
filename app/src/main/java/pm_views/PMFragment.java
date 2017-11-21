@@ -98,6 +98,11 @@ public abstract class PMFragment extends Fragment implements PMLifecycleRegistry
         }
     }
 
+    @Override
+    public Class getViewInterface() {
+        return PMLifecycleRegistryOwner.class;
+    }
+
     protected abstract boolean isMarkedForDeath();
 
     protected abstract void markForDeath();

@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Toast;
 
 import MVC.GlobalControllerFactory;
 import MVC.PMExtendedLifecycleRegistryOwner;
@@ -24,7 +25,7 @@ import pm_views.flows.flow_controllers.PageOneController;
 public class PageOneFragment extends PMFragment implements PMExtendedLifecycleRegistryOwner{
 
 
-    Button click;
+    Button click, back_from_controller_test;
     PageOneController controller;
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -42,6 +43,13 @@ public class PageOneFragment extends PMFragment implements PMExtendedLifecycleRe
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         click = (Button)view.findViewById(R.id.click);
+        back_from_controller_test = (Button)view.findViewById(R.id.back_from_controller_test);
+        back_from_controller_test.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                controller.justTellMeSomething();
+            }
+        });
         click.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -67,6 +75,11 @@ public class PageOneFragment extends PMFragment implements PMExtendedLifecycleRe
     }
 
     @Override
+    public Class getViewInterface() {
+        return PMExtendedLifecycleRegistryOwner.class;
+    }
+
+    @Override
     protected boolean isMarkedForDeath() {
         if(controller != null && controller.isControllerAlive()) {
             return controller.isMarkedForDeath();
@@ -84,7 +97,7 @@ public class PageOneFragment extends PMFragment implements PMExtendedLifecycleRe
 
     @Override
     public void foo() {
-
+        Toast.makeText(getContext(), "Wow I Got something " + controller.getCount(), Toast.LENGTH_LONG).show();
     }
 
     @Override

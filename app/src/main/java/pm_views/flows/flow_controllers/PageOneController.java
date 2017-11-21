@@ -10,11 +10,11 @@ import MVC.PMLifecycleRegistryOwner;
  * Created by nsohoni on 08/11/17.
  */
 
-public class PageOneController<L extends PMLifecycleRegistryOwner> extends BaseController<L>   {
+public class PageOneController extends BaseController<PMExtendedLifecycleRegistryOwner>   {
 
     public static final int REQUEST_CODE_A = 1;
-
-    public PageOneController(L lifecycleOwner) {
+    int count = 0;
+    public PageOneController(PMExtendedLifecycleRegistryOwner lifecycleOwner) {
         super(lifecycleOwner);
     }
 
@@ -25,5 +25,14 @@ public class PageOneController<L extends PMLifecycleRegistryOwner> extends BaseC
                 //PMExtendedLifecycleRegistryOwner owner = getLifecycleOwner();
                 break;
         }
+    }
+
+    public void justTellMeSomething() {
+        count++;
+        getLifecycleOwner().foo();
+    }
+
+    public int getCount() {
+        return count;
     }
 }

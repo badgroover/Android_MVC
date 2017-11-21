@@ -18,4 +18,5 @@ public interface PMLifecycleRegistryOwner extends LifecycleRegistryOwner{
     UUID        getTargetLifecycleOwner();
     int         getRequestCode();
     void        kill();
+    Class getViewInterface();
 }
