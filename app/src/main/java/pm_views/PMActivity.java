@@ -100,6 +100,11 @@ public class PMActivity extends FragmentActivity implements PMLifecycleRegistryO
         finish();
     }
 
+    @Override
+    public Class getViewInterface() {
+        return PMLifecycleRegistryOwner.class;
+    }
+
 
     public boolean isStateSaved() {
         return isStateSaved;

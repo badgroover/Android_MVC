@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import MVC.GlobalControllerFactory;
+import MVC.PMExtendedLifecycleRegistryOwner;
 import pm_views.PMFragment;
 import pm_views.R;
 import pm_views.flows.flow_controllers.PageTwoController;
@@ -16,7 +17,7 @@ import pm_views.flows.flow_controllers.PageTwoController;
  * Created by shrikanth on 11/6/17.
  */
 
-public class PageTwoFragment extends PMFragment{
+public class PageTwoFragment extends PMFragment implements PMExtendedLifecycleRegistryOwner{
 
 
     Button click;
@@ -78,4 +79,18 @@ public class PageTwoFragment extends PMFragment{
         }
     }
 
+    @Override
+    public Class getViewInterface() {
+        return PMExtendedLifecycleRegistryOwner.class;
+    }
+
+    @Override
+    public void foo() {
+
+    }
+
+    @Override
+    public void doo() {
+
+    }
 }

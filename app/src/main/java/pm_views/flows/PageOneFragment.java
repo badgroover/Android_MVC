@@ -75,6 +75,11 @@ public class PageOneFragment extends PMFragment implements PMExtendedLifecycleRe
     }
 
     @Override
+    public Class getViewInterface() {
+        return PMExtendedLifecycleRegistryOwner.class;
+    }
+
+    @Override
     protected boolean isMarkedForDeath() {
         if(controller != null && controller.isControllerAlive()) {
             return controller.isMarkedForDeath();
