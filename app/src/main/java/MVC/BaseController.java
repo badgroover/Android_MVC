@@ -19,10 +19,10 @@ import pm_views.PMActivity;
  * Created by nsohoni on 14/10/17.
  */
 
-public abstract class BaseController implements LifecycleObserver {
+public abstract class BaseController<L extends PMLifecycleRegistryOwner> implements LifecycleObserver {
 
     protected PM_Model                              model;
-    private WeakReference<PMLifecycleRegistryOwner> lifecycleRegistryOwner;
+    private WeakReference<L> lifecycleRegistryOwner;
     private Object                                  mutex = new Object();
     private boolean                                 isControllerAlive = false;
     boolean                                         bIsMarkedForDeath = false;
@@ -39,7 +39,7 @@ public abstract class BaseController implements LifecycleObserver {
         } });
 
 
-    public BaseController(PMLifecycleRegistryOwner lifecycleOwner) {
+    public BaseController(L lifecycleOwner) {
         isControllerAlive = true;
         this.lifecycleRegistryOwner = new WeakReference(lifecycleOwner);
     }
@@ -55,7 +55,7 @@ public abstract class BaseController implements LifecycleObserver {
 
     @OnLifecycleEvent(Lifecycle.Event.ON_RESUME)
     public void onResume() {
-        PMLifecycleRegistryOwner owner = getLifecycleOwner();
+        L owner = getLifecycleOwner();
         if(owner != null) {
             if(isMarkedForDeath()) {
                 queueExit();
@@ -74,7 +74,7 @@ public abstract class BaseController implements LifecycleObserver {
         //lets check if the fragment is going away due to kill switch...
         ///if not (which means that user is backing out of fragment)
         //we remove ourselves from the GlobalController map
-        PMLifecycleRegistryOwner owner = getLifecycleOwner();
+        L owner = getLifecycleOwner();
         if(owner != null) {
             FragmentActivity activity = owner.getOwnerActivity();
             if(activity != null && (activity.isFinishing() || activity.isDestroyed())) {
@@ -90,7 +90,7 @@ public abstract class BaseController implements LifecycleObserver {
     }
 
     public void detachController() {
-        PMLifecycleRegistryOwner owner = getLifecycleOwner();
+        L owner = getLifecycleOwner();
         if(owner != null) {
             isControllerAlive = false;
             GlobalControllerFactory.getInstance().remove(owner.getIdentifier());
@@ -98,7 +98,7 @@ public abstract class BaseController implements LifecycleObserver {
         }
     }
 
-    public PMLifecycleRegistryOwner getLifecycleOwner() {
+    public L getLifecycleOwner() {
         return lifecycleRegistryOwner.get();
     }
 
@@ -120,7 +120,7 @@ public abstract class BaseController implements LifecycleObserver {
         }
     }
 
-    public void setLifecycleRegistryOwner(PMLifecycleRegistryOwner owner) {
+    public void setLifecycleRegistryOwner(L owner) {
         lifecycleRegistryOwner = new WeakReference(owner);
     }
 
@@ -131,7 +131,7 @@ public abstract class BaseController implements LifecycleObserver {
     public void exit() {
         //Exiting a controller is done by exiting/removing the attached LifeCycleOwner.
         //This in turn will remove the controller in the correct order
-        PMLifecycleRegistryOwner owner = getLifecycleOwner();
+        L owner = getLifecycleOwner();
         if(owner.getLifecycle().getCurrentState().isAtLeast(Lifecycle.State.RESUMED)) {
             owner.kill();
         }

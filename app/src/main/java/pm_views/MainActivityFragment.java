@@ -104,13 +104,13 @@ public class MainActivityFragment extends PMFragment {
     @Override
     public void updateViews() {
         //called by the controller when the model has been updated.
-        UserModel model = controller.getModel(UserModel.class);
+        /*UserModel model = controller.getModel(UserModel.class);
         if(model != null) {
             name.setText(model.name);
             address1.setText(model.address1);
             address2.setText(model.address2);
             city.setText(model.city);
-        }
+        }*/
 
     }
 

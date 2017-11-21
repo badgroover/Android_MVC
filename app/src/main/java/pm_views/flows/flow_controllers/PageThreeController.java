@@ -15,9 +15,9 @@ import MVC.PMLifecycleRegistryOwner;
  * Created by nsohoni on 08/11/17.
  */
 
-public class PageThreeController extends BaseController {
+public class PageThreeController<L extends PMLifecycleRegistryOwner> extends BaseController<L> {
 
-    public PageThreeController(PMLifecycleRegistryOwner lifecycleOwner) {
+    public PageThreeController(L lifecycleOwner) {
         super(lifecycleOwner);
     }
 
@@ -45,7 +45,7 @@ public class PageThreeController extends BaseController {
     }
 
     public void returnResults(HashMap<String, Object> hashMap, int returnCode) {
-        PMLifecycleRegistryOwner owner = getLifecycleOwner();
+        L owner = getLifecycleOwner();
         UUID targetId = owner.getTargetLifecycleOwner();
         int requestCode = owner.getRequestCode();
         BaseController controller = GlobalControllerFactory.getInstance().getControllerForLifecycleOwner(targetId);

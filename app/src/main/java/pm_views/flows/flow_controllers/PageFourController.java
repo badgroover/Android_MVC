@@ -9,11 +9,11 @@ import MVC.PMLifecycleRegistryOwner;
  * Created by nsohoni on 20/11/17.
  */
 
-public class PageFourController extends BaseController {
+public class PageFourController<L extends PMLifecycleRegistryOwner> extends BaseController<L> {
 
     public static final int REQUEST_CODE_A = 1;
 
-    public PageFourController(PMLifecycleRegistryOwner lifecycleOwner) {
+    public PageFourController(L lifecycleOwner) {
         super(lifecycleOwner);
     }
 

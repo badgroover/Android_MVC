@@ -13,9 +13,9 @@ import static java.lang.Thread.sleep;
  * Created by nsohoni on 14/10/17.
  */
 
-public class AddressController extends BaseController {
+public class AddressController<L extends PMLifecycleRegistryOwner> extends BaseController<L> {
 
-    public AddressController(PMLifecycleRegistryOwner owner) {
+    public AddressController(L owner) {
         super(owner);
     }
 
@@ -44,7 +44,7 @@ public class AddressController extends BaseController {
 
     public void updateViews() {
         //call an interface method implemented in fragment and pass in the model
-        PMLifecycleRegistryOwner owner = getLifecycleOwner();
+        L owner = getLifecycleOwner();
         if(owner != null && owner.getLifecycle().getCurrentState().isAtLeast(Lifecycle.State.RESUMED)) {
             owner.updateViews();
         }
@@ -52,7 +52,7 @@ public class AddressController extends BaseController {
 
     private void fetchData() {
         //Start a thread to get data
-        final PMLifecycleRegistryOwner owner = getLifecycleOwner();
+        final L owner = getLifecycleOwner();
         if(owner != null) {
             //frag.showProgressDialogWithMessage("Loading");
             MockApi.getData(new MockApi.ResponseHandler() {
@@ -82,7 +82,7 @@ public class AddressController extends BaseController {
         MockApi.getData(new MockApi.ResponseHandler() {
             @Override
             public void onSuccess() {
-                PMLifecycleRegistryOwner owner = getLifecycleOwner();
+                L owner = getLifecycleOwner();
                 if(isControllerAlive() && owner != null) {
                     UserModel m = new UserModel();
                     m.name = "Sapna Sohoni";

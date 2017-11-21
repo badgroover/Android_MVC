@@ -10,9 +10,9 @@ import pm_views.PMActivity;
  * Created by shrikanth on 11/6/17.
  */
 
-public class AutoCloseFragmentConrtoller extends BaseController {
+public class AutoCloseFragmentController<L extends PMLifecycleRegistryOwner> extends BaseController<L> {
 
-    public AutoCloseFragmentConrtoller(PMLifecycleRegistryOwner lifecycleOwner) {
+    public AutoCloseFragmentController(L lifecycleOwner) {
         super(lifecycleOwner);
     }
 

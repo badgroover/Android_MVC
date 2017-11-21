@@ -13,11 +13,11 @@ import MVC.PMLifecycleRegistryOwner;
  * Created by nsohoni on 08/11/17.
  */
 
-public class PageTwoController extends BaseController {
+public class PageTwoController<L extends PMLifecycleRegistryOwner> extends BaseController<L> {
 
     public static final int REQUEST_CODE_B = 1;
 
-    public PageTwoController(PMLifecycleRegistryOwner lifecycleOwner) {
+    public PageTwoController(L lifecycleOwner) {
         super(lifecycleOwner);
     }
 
@@ -25,7 +25,7 @@ public class PageTwoController extends BaseController {
     public void setResultData(int requestCode, int resultOk, HashMap<String, Object> results) {
         switch (requestCode) {
             case REQUEST_CODE_B:
-                PMLifecycleRegistryOwner owner = getLifecycleOwner();
+                L owner = getLifecycleOwner();
                 if(isControllerAlive() && owner != null) {
                     UUID targetId = owner.getTargetLifecycleOwner();
                     int  targetRequestCode = owner.getRequestCode();

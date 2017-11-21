@@ -47,7 +47,7 @@ public class GlobalControllerFactory {
         }
     }
 
-    public <T extends BaseController> T createControllerForLifecycleOwner(PMLifecycleRegistryOwner owner, Class<T> controllerClass) {
+    public <T extends BaseController, L extends PMLifecycleRegistryOwner> T createControllerForLifecycleOwner(PMLifecycleRegistryOwner owner, Class<T> controllerClass) {
         BaseController controller;
         UUID identifier = owner.getIdentifier();
         if(map.containsKey(identifier)) {
@@ -58,7 +58,7 @@ public class GlobalControllerFactory {
         } else {
             Constructor<?> ctor = null;
             try {
-                ctor = controllerClass.getConstructor(PMLifecycleRegistryOwner.class);
+                ctor = controllerClass.getConstructor(owner.getClass());
                 controller = (BaseController) ctor.newInstance(new Object[] { owner });
                 owner.getLifecycle().addObserver(controller);
                 map.put(identifier, controller);
