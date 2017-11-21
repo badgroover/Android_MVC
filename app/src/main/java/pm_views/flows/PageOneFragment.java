@@ -97,7 +97,7 @@ public class PageOneFragment extends PMFragment implements PMExtendedLifecycleRe
 
     @Override
     public void foo() {
-        Toast.makeText(getContext(), "Wow I Got something", Toast.LENGTH_LONG).show();
+        Toast.makeText(getContext(), "Wow I Got something " + controller.getCount(), Toast.LENGTH_LONG).show();
     }
 
     @Override

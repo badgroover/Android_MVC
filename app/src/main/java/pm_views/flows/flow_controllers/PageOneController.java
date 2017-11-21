@@ -13,7 +13,7 @@ import MVC.PMLifecycleRegistryOwner;
 public class PageOneController extends BaseController<PMExtendedLifecycleRegistryOwner>   {
 
     public static final int REQUEST_CODE_A = 1;
-
+    int count = 0;
     public PageOneController(PMExtendedLifecycleRegistryOwner lifecycleOwner) {
         super(lifecycleOwner);
     }
@@ -28,6 +28,11 @@ public class PageOneController extends BaseController<PMExtendedLifecycleRegistr
     }
 
     public void justTellMeSomething() {
+        count++;
         getLifecycleOwner().foo();
+    }
+
+    public int getCount() {
+        return count;
     }
 }
