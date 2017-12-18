@@ -2,13 +2,19 @@ package pm_views.flows;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import java.lang.reflect.Field;
+
 import MVC.GlobalControllerFactory;
-import MVC.PMExtendedLifecycleRegistryOwner;
+import MVC.PMExtendedLifecycleOwner;
+import pm_views.PMActivity;
 import pm_views.PMFragment;
 import pm_views.R;
 import pm_views.flows.flow_controllers.PageTwoController;
@@ -17,7 +23,7 @@ import pm_views.flows.flow_controllers.PageTwoController;
  * Created by shrikanth on 11/6/17.
  */
 
-public class PageTwoFragment extends PMFragment implements PMExtendedLifecycleRegistryOwner{
+public class PageTwoFragment extends PMFragment implements PMExtendedLifecycleOwner {
 
 
     Button click;
@@ -81,16 +87,38 @@ public class PageTwoFragment extends PMFragment implements PMExtendedLifecycleRe
 
     @Override
     public Class getViewInterface() {
-        return PMExtendedLifecycleRegistryOwner.class;
+        return PMExtendedLifecycleOwner.class;
     }
 
-    @Override
     public void foo() {
 
     }
 
-    @Override
     public void doo() {
+
+    }
+
+    @Override
+    public void launchNextFragment() {
+    }
+
+    @Override
+    public void killFragment() {
+//        try {
+//            Field f = ((Fragment)this).getClass().getDeclaredField("mTarget"); //NoSuchFieldException
+//            f.setAccessible(true);
+//            //f.set(this, 1);
+//        } //catch (IllegalAccessException e) {
+//            //e.printStackTrace();
+//        //}
+//        catch (NoSuchFieldException e) {
+//
+//        }
+        PMActivity activity = getOwnerActivity();
+        FragmentManager fm = activity.getSupportFragmentManager();
+        FragmentTransaction ft = fm.beginTransaction();
+        ft.remove(this);
+        ft.commitAllowingStateLoss();
 
     }
 }

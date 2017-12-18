@@ -3,33 +3,37 @@ package pm_views.flows.flow_controllers;
 import java.util.HashMap;
 
 import MVC.BaseController;
-import MVC.PMExtendedLifecycleRegistryOwner;
-import MVC.PMLifecycleRegistryOwner;
+import MVC.PMExtendedLifecycleOwner;
 
 /**
  * Created by nsohoni on 08/11/17.
  */
 
-public class PageOneController extends BaseController<PMExtendedLifecycleRegistryOwner>   {
+public class PageOneController extends BaseController<PMExtendedLifecycleOwner>   {
 
     public static final int REQUEST_CODE_A = 1;
     int count = 0;
-    public PageOneController(PMExtendedLifecycleRegistryOwner lifecycleOwner) {
+    public PageOneController(PMExtendedLifecycleOwner lifecycleOwner) {
         super(lifecycleOwner);
     }
 
     @Override
-    public void setResultData(int requestCode, int resultOk, HashMap<String, Object> results) {
+    public void onResult(int requestCode, int resultOk, HashMap<String, Object> results) {
         switch(requestCode) {
             case REQUEST_CODE_A:
-                //PMExtendedLifecycleRegistryOwner owner = getLifecycleOwner();
+                PMExtendedLifecycleOwner owner = getLifecycleOwner();
+                owner.launchNextFragment();
                 break;
         }
     }
 
+    @Override
+    public void returnResults(HashMap<String, Object> hashMap, int returnCode) {
+
+    }
+
     public void justTellMeSomething() {
         count++;
-        getLifecycleOwner().foo();
     }
 
     public int getCount() {

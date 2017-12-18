@@ -3,7 +3,6 @@ package MVC;
 import android.arch.lifecycle.Lifecycle;
 import android.arch.lifecycle.LifecycleObserver;
 import android.arch.lifecycle.OnLifecycleEvent;
-import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
@@ -12,6 +11,7 @@ import android.support.v4.app.FragmentActivity;
 
 import java.lang.ref.WeakReference;
 import java.util.HashMap;
+import java.util.concurrent.LinkedBlockingQueue;
 
 import pm_views.PMActivity;
 
@@ -19,21 +19,28 @@ import pm_views.PMActivity;
  * Created by nsohoni on 14/10/17.
  */
 
-public abstract class BaseController<L extends PMLifecycleRegistryOwner> implements LifecycleObserver {
+public abstract class BaseController<L extends PMLifecycleOwner> implements LifecycleObserver {
 
     protected PM_Model                              model;
     private WeakReference<L>                        lifecycleRegistryOwner;
     private Object                                  mutex = new Object();
     private boolean                                 isControllerAlive = false;
     boolean                                         bIsMarkedForDeath = false;
-    protected enum MESSAGE_TYPE {EXIT};
+    HashMap<String, Object>                         returnData;
+    LinkedBlockingQueue<MESSAGE_TYPE>               deferredCommand = new LinkedBlockingQueue<>(1);
+    int returnCode;
 
-    Handler h = new Handler(Looper.getMainLooper(), new Handler.Callback() {
+    protected enum MESSAGE_TYPE {EXIT, RETURN_DATA_AND_EXIT};
+
+    Handler handler = new Handler(Looper.getMainLooper(), new Handler.Callback() {
         @Override
         public boolean handleMessage(Message msg) {
-            switch(msg.what) {
-                case 1:
+            MESSAGE_TYPE type = MESSAGE_TYPE.values()[msg.what];
+            switch(type) {
+                case EXIT:
                     exit();
+                case RETURN_DATA_AND_EXIT:
+                    returnResults(returnData, returnCode);
             }
             return false;
         } });
@@ -57,7 +64,14 @@ public abstract class BaseController<L extends PMLifecycleRegistryOwner> impleme
     public void onResume() {
         L owner = getLifecycleOwner();
         if(owner != null) {
-            if(isMarkedForDeath()) {
+            if(deferredCommand.size() == 1) {
+                try {
+                    MESSAGE_TYPE message_type = deferredCommand.take();
+                    handler.sendEmptyMessage(message_type.ordinal());
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            } else if(isMarkedForDeath()) {
                 queueExit();
             } else {
                 owner.setupViews();
@@ -125,7 +139,15 @@ public abstract class BaseController<L extends PMLifecycleRegistryOwner> impleme
     }
 
     public void queueExit() {
-        h.sendEmptyMessage(1);
+        deferredCommand.clear();
+        deferredCommand.add(MESSAGE_TYPE.EXIT);
+    }
+
+    public void queueReturnResultsAndExit(HashMap<String, Object> hashMap, int returnCode) {
+        returnData = hashMap;
+        this.returnCode = returnCode;
+        deferredCommand.clear();
+        deferredCommand.add(MESSAGE_TYPE.RETURN_DATA_AND_EXIT);
     }
 
     public void exit() {
@@ -146,5 +168,7 @@ public abstract class BaseController<L extends PMLifecycleRegistryOwner> impleme
     }
 
 
-    public abstract void setResultData(int requestCode, int resultOk, HashMap<String, Object> results);
+    public abstract void onResult(int requestCode, int resultOk, HashMap<String, Object> results);
+
+    public abstract void returnResults(HashMap<String, Object> hashMap, int returnCode);
 }

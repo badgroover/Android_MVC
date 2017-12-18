@@ -6,13 +6,13 @@ import android.support.v4.app.Fragment;
 
 import java.util.UUID;
 
-import MVC.PMLifecycleRegistryOwner;
+import MVC.PMLifecycleOwner;
 
 /**
  * Created by nsohoni on 16/10/17.
  */
 
-public abstract class PMFragment extends Fragment implements PMLifecycleRegistryOwner {
+public abstract class PMFragment extends Fragment implements PMLifecycleOwner {
 
     UUID                fragmentId;
     LifecycleRegistry   mLifecycleRegistry = new LifecycleRegistry(this);
@@ -100,7 +100,7 @@ public abstract class PMFragment extends Fragment implements PMLifecycleRegistry
 
     @Override
     public Class getViewInterface() {
-        return PMLifecycleRegistryOwner.class;
+        return PMLifecycleOwner.class;
     }
 
     protected abstract boolean isMarkedForDeath();

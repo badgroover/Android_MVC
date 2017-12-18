@@ -9,21 +9,20 @@ import java.util.UUID;
 import MVC.BaseController;
 import MVC.GlobalControllerFactory;
 import MVC.MockApi;
-import MVC.PMLifecycleRegistryOwner;
+import MVC.PMLifecycleOwner;
 
 /**
  * Created by nsohoni on 08/11/17.
  */
 
-public class PageThreeController<L extends PMLifecycleRegistryOwner> extends BaseController<L> {
+public class PageThreeController extends BaseController<PMLifecycleOwner> {
 
-    public PageThreeController(L lifecycleOwner) {
+    public PageThreeController(PMLifecycleOwner lifecycleOwner) {
         super(lifecycleOwner);
     }
 
     @Override
-    public void setResultData(int requestCode, int resultOk, HashMap<String, Object> results) {
-
+    public void onResult(int requestCode, int resultOk, HashMap<String, Object> results) {
     }
 
     public void passBackResults() {
@@ -45,15 +44,18 @@ public class PageThreeController<L extends PMLifecycleRegistryOwner> extends Bas
     }
 
     public void returnResults(HashMap<String, Object> hashMap, int returnCode) {
-        L owner = getLifecycleOwner();
-        UUID targetId = owner.getTargetLifecycleOwner();
-        int requestCode = owner.getRequestCode();
-        BaseController controller = GlobalControllerFactory.getInstance().getControllerForLifecycleOwner(targetId);
-        controller.setResultData(requestCode, returnCode, hashMap);
-        if(isControllerAlive() && owner.getLifecycle().getCurrentState().isAtLeast(Lifecycle.State.RESUMED)) {
-            queueExit();
-        } else {
-            markForDeath();
+        PMLifecycleOwner owner = getLifecycleOwner();
+        if(isControllerAlive()) {
+            UUID targetId = owner.getTargetLifecycleOwner();
+            int requestCode = owner.getRequestCode();
+            BaseController controller = GlobalControllerFactory.getInstance().getControllerForLifecycleOwner(targetId);
+
+            if (owner.getLifecycle().getCurrentState().isAtLeast(Lifecycle.State.RESUMED)) {
+                controller.onResult(requestCode, returnCode, hashMap);
+                exit();
+            } else {
+                queueReturnResultsAndExit(hashMap, returnCode);
+            }
         }
     }
 

@@ -3,13 +3,13 @@ package pm_views.flows.flow_controllers;
 import java.util.HashMap;
 
 import MVC.BaseController;
-import MVC.PMLifecycleRegistryOwner;
+import MVC.PMLifecycleOwner;
 
 /**
  * Created by nsohoni on 20/11/17.
  */
 
-public class PageFourController<L extends PMLifecycleRegistryOwner> extends BaseController<L> {
+public class PageFourController<L extends PMLifecycleOwner> extends BaseController<L> {
 
     public static final int REQUEST_CODE_A = 1;
 
@@ -18,7 +18,12 @@ public class PageFourController<L extends PMLifecycleRegistryOwner> extends Base
     }
 
     @Override
-    public void setResultData(int requestCode, int resultOk, HashMap<String, Object> results) {
+    public void onResult(int requestCode, int resultOk, HashMap<String, Object> results) {
+
+    }
+
+    @Override
+    public void returnResults(HashMap<String, Object> hashMap, int returnCode) {
 
     }
 }

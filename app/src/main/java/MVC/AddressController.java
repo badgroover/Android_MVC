@@ -1,6 +1,5 @@
 package MVC;
 
-import android.app.Activity;
 import android.arch.lifecycle.Lifecycle;
 import android.arch.lifecycle.OnLifecycleEvent;
 
@@ -13,7 +12,7 @@ import static java.lang.Thread.sleep;
  * Created by nsohoni on 14/10/17.
  */
 
-public class AddressController<L extends PMLifecycleRegistryOwner> extends BaseController<L> {
+public class AddressController<L extends PMLifecycleOwner> extends BaseController<L> {
 
     public AddressController(L owner) {
         super(owner);
@@ -26,8 +25,13 @@ public class AddressController<L extends PMLifecycleRegistryOwner> extends BaseC
     }
 
     @Override
-    public void setResultData(int requestCode, int resultCode, HashMap<String, Object> results) {
+    public void onResult(int requestCode, int resultCode, HashMap<String, Object> results) {
         //handle the results here
+    }
+
+    @Override
+    public void returnResults(HashMap<String, Object> hashMap, int returnCode) {
+
     }
 
 

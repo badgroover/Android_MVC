@@ -9,13 +9,13 @@ import android.support.v4.app.FragmentTransaction;
 import java.util.UUID;
 
 import MVC.BaseController;
-import MVC.PMLifecycleRegistryOwner;
+import MVC.PMLifecycleOwner;
 
 /**
  * Created by nsohoni on 16/10/17.
  */
 
-public class PMActivity extends FragmentActivity implements PMLifecycleRegistryOwner {
+public class PMActivity extends FragmentActivity implements PMLifecycleOwner {
 
     private final LifecycleRegistry mRegistry = new LifecycleRegistry(this);
     boolean isStateSaved = false;
@@ -102,7 +102,7 @@ public class PMActivity extends FragmentActivity implements PMLifecycleRegistryO
 
     @Override
     public Class getViewInterface() {
-        return PMLifecycleRegistryOwner.class;
+        return PMLifecycleOwner.class;
     }
 
 

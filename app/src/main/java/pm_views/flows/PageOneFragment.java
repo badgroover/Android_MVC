@@ -1,10 +1,7 @@
 package pm_views.flows;
 
-import android.arch.lifecycle.LifecycleRegistry;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,8 +9,7 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import MVC.GlobalControllerFactory;
-import MVC.PMExtendedLifecycleRegistryOwner;
-import pm_views.AutoCloseFragment;
+import MVC.PMExtendedLifecycleOwner;
 import pm_views.PMFragment;
 import pm_views.R;
 import pm_views.flows.flow_controllers.PageOneController;
@@ -22,7 +18,7 @@ import pm_views.flows.flow_controllers.PageOneController;
  * Created by shrikanth on 11/6/17.
  */
 
-public class PageOneFragment extends PMFragment implements PMExtendedLifecycleRegistryOwner{
+public class PageOneFragment extends PMFragment implements PMExtendedLifecycleOwner {
 
 
     Button click, back_from_controller_test;
@@ -76,7 +72,7 @@ public class PageOneFragment extends PMFragment implements PMExtendedLifecycleRe
 
     @Override
     public Class getViewInterface() {
-        return PMExtendedLifecycleRegistryOwner.class;
+        return PMExtendedLifecycleOwner.class;
     }
 
     @Override
@@ -96,12 +92,12 @@ public class PageOneFragment extends PMFragment implements PMExtendedLifecycleRe
     }
 
     @Override
-    public void foo() {
+    public void launchNextFragment() {
         Toast.makeText(getContext(), "Wow I Got something " + controller.getCount(), Toast.LENGTH_LONG).show();
     }
 
     @Override
-    public void doo() {
+    public void killFragment() {
 
     }
 }

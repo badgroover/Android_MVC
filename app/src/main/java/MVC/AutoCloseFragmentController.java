@@ -10,14 +10,19 @@ import pm_views.PMActivity;
  * Created by shrikanth on 11/6/17.
  */
 
-public class AutoCloseFragmentController<L extends PMLifecycleRegistryOwner> extends BaseController<L> {
+public class AutoCloseFragmentController<L extends PMLifecycleOwner> extends BaseController<L> {
 
     public AutoCloseFragmentController(L lifecycleOwner) {
         super(lifecycleOwner);
     }
 
     @Override
-    public void setResultData(int requestCode, int resultOk, HashMap<String, Object> results) {
+    public void onResult(int requestCode, int resultOk, HashMap<String, Object> results) {
+
+    }
+
+    @Override
+    public void returnResults(HashMap<String, Object> hashMap, int returnCode) {
 
     }
 
