@@ -103,7 +103,4 @@ public abstract class PMFragment extends Fragment implements PMLifecycleOwner {
         return PMLifecycleOwner.class;
     }
 
-    protected abstract boolean isMarkedForDeath();
-
-    protected abstract void markForDeath();
 }

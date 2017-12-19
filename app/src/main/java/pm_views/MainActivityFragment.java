@@ -87,19 +87,6 @@ public class MainActivityFragment extends PMFragment {
 
     }
 
-    @Override
-    protected boolean isMarkedForDeath() {
-        if(controller != null && controller.isControllerAlive()) {
-            return controller.isMarkedForDeath();
-        } else {
-            return false;
-        }
-    }
-
-    @Override
-    protected void markForDeath() {
-
-    }
 
     @Override
     public void updateViews() {

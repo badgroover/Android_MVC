@@ -23,21 +23,7 @@ public class AutoCloseFragment extends PMFragment {
         getLifecycle().addObserver(controller);
     }
 
-    @Override
-    protected boolean isMarkedForDeath() {
-        if(controller != null && controller.isControllerAlive()) {
-            return controller.isMarkedForDeath();
-        } else {
-            return false;
-        }
-    }
 
-    @Override
-    protected void markForDeath() {
-        if(controller != null && controller.isControllerAlive()) {
-            controller.markForDeath();
-        }
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,

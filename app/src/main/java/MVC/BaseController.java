@@ -26,7 +26,6 @@ public abstract class BaseController<L extends PMLifecycleOwner> implements Life
     private WeakReference<L>                        lifecycleRegistryOwner;
     private Object                                  mutex = new Object();
     private boolean                                 isControllerAlive = false;
-    boolean                                         bIsMarkedForDeath = false;
     HashMap<String, Object>                         returnData;
     LinkedBlockingQueue<MESSAGE_TYPE>               deferredCommand = new LinkedBlockingQueue<>(1);
     int returnCode;
@@ -72,8 +71,6 @@ public abstract class BaseController<L extends PMLifecycleOwner> implements Life
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-            } else if(isMarkedForDeath()) {
-                queueExit();
             } else {
                 owner.setupViews();
             }
@@ -158,14 +155,6 @@ public abstract class BaseController<L extends PMLifecycleOwner> implements Life
         if(owner.getLifecycle().getCurrentState().isAtLeast(Lifecycle.State.RESUMED)) {
             owner.kill();
         }
-    }
-
-    public void markForDeath() {
-        bIsMarkedForDeath = true;
-    }
-
-    public boolean isMarkedForDeath() {
-        return bIsMarkedForDeath;
     }
 
 
