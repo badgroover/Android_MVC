@@ -2,6 +2,7 @@ package pm_views;
 
 import android.arch.lifecycle.LifecycleRegistry;
 import android.os.Bundle;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 
 import java.util.UUID;
@@ -12,7 +13,7 @@ import MVC.PMLifecycleOwner;
  * Created by nsohoni on 16/10/17.
  */
 
-public abstract class PMFragment extends Fragment implements PMLifecycleOwner {
+public abstract class PMFragment extends DialogFragment implements PMLifecycleOwner {
 
     UUID                fragmentId;
     LifecycleRegistry   mLifecycleRegistry = new LifecycleRegistry(this);
@@ -33,7 +34,6 @@ public abstract class PMFragment extends Fragment implements PMLifecycleOwner {
             fragmentId = UUID.randomUUID();
         }
     }
-
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
