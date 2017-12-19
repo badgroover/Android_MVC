@@ -128,6 +128,7 @@ public class PMActivity extends FragmentActivity implements PMLifecycleOwner {
             FragmentManager fm = getSupportFragmentManager();
             int count = fm.getBackStackEntryCount();
             FragmentTransaction ft = fm.beginTransaction();
+            ft.setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left, R.anim.slide_in_left, R.anim.slide_out_right);
             ft.replace(R.id.fragmentContainer, fragment, Integer.toString(count + 1));
             ft.addToBackStack(Integer.toString(count + 1));
             ft.commit();
