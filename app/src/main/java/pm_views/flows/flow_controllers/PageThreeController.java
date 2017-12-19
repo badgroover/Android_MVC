@@ -43,21 +43,6 @@ public class PageThreeController extends BaseController<PMLifecycleOwner> {
 
     }
 
-    public void returnResults(HashMap<String, Object> hashMap, int returnCode) {
-        PMLifecycleOwner owner = getLifecycleOwner();
-        if(isControllerAlive()) {
-            UUID targetId = owner.getTargetLifecycleOwner();
-            int requestCode = owner.getRequestCode();
-            BaseController controller = GlobalControllerFactory.getInstance().getControllerForLifecycleOwner(targetId);
-
-            if (owner.getLifecycle().getCurrentState().isAtLeast(Lifecycle.State.RESUMED)) {
-                controller.onResult(requestCode, returnCode, hashMap);
-                exit();
-            } else {
-                queueReturnResultsAndExit(hashMap, returnCode);
-            }
-        }
-    }
 
 }
 

@@ -11,6 +11,7 @@ import android.support.v4.app.FragmentActivity;
 
 import java.lang.ref.WeakReference;
 import java.util.HashMap;
+import java.util.UUID;
 import java.util.concurrent.LinkedBlockingQueue;
 
 import pm_views.PMActivity;
@@ -170,5 +171,19 @@ public abstract class BaseController<L extends PMLifecycleOwner> implements Life
 
     public abstract void onResult(int requestCode, int resultOk, HashMap<String, Object> results);
 
-    public abstract void returnResults(HashMap<String, Object> hashMap, int returnCode);
+    public void returnResults(HashMap<String, Object> hashMap, int returnCode) {
+        PMLifecycleOwner owner = getLifecycleOwner();
+        if(isControllerAlive()) {
+            UUID targetId = owner.getTargetLifecycleOwner();
+            int requestCode = owner.getRequestCode();
+            BaseController controller = GlobalControllerFactory.getInstance().getControllerForLifecycleOwner(targetId);
+
+            if (owner.getLifecycle().getCurrentState().isAtLeast(Lifecycle.State.RESUMED)) {
+                controller.onResult(requestCode, returnCode, hashMap);
+                exit();
+            } else {
+                queueReturnResultsAndExit(hashMap, returnCode);
+            }
+        }
+    }
 }

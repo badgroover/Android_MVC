@@ -40,16 +40,7 @@ public class PMActivity extends FragmentActivity implements PMLifecycleOwner {
         if(count == 0) {
             finish();
         } else {
-            PMFragment fragment = (PMFragment) fm.findFragmentByTag(Integer.toString(count));
-            fragment.markForDeath();
-            //lets pop all fragments that have been marked.
-            for(int i = count; i>0; i--) {
-                fragment = (PMFragment) fm.findFragmentByTag(Integer.toString(i));
-                if(fragment.isMarkedForDeath()) {
-                    fm.popBackStackImmediate();
-                }
-                count--;
-            }
+            fm.popBackStackImmediate();
         }
     }
 

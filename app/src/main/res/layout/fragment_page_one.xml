@@ -11,7 +11,7 @@
     android:orientation="vertical"
     tools:context="pm_views.MainActivity"
     tools:showIn="@layout/activity_main"
-    android:background="@android:color/transparent">
+    android:background="@android:color/holo_green_dark">
 
     <TextView
         android:layout_width="match_parent"
