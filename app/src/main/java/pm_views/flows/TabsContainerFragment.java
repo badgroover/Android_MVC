@@ -18,6 +18,7 @@ import pm_views.PMFragment;
 import pm_views.R;
 import pm_views.flows.flow_controllers.PageTwoController;
 import pm_views.flows.flow_controllers.TabsContainerController;
+import pm_views.flows.models.TabContainerData;
 import pm_views.flows.pager_adapter.TabsAdapter;
 
 /**
@@ -28,6 +29,7 @@ public class TabsContainerFragment extends PMFragment implements TabsContainerLi
     Button click;
     TabsContainerController controller;
     TabsAdapter adapter;
+    ViewPager vpPager;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,14 +56,14 @@ public class TabsContainerFragment extends PMFragment implements TabsContainerLi
     @Override
     public void updateViews() {
         super.updateViews();
+        vpPager.setAdapter(adapter);
     }
 
     @Override
     public void setupViews() {
         super.setupViews();
-        ViewPager vpPager = (ViewPager)getView().findViewById(R.id.view_pager);
+        vpPager = (ViewPager)getView().findViewById(R.id.view_pager);
         adapter = new TabsAdapter(getChildFragmentManager(), this);
-        vpPager.setAdapter(adapter);
     }
 
     @Override
@@ -71,13 +73,19 @@ public class TabsContainerFragment extends PMFragment implements TabsContainerLi
 
     public PMFragment getTabFragment(int position){
         Bundle b = new Bundle();
-        b.putString("text", position+"");
+        b.putString("title", position+"");
+        b.putInt("index", position);
         PMFragment fragment = new TabItemFragment();
         fragment.setArguments(b);
+        fragment.setTargetController(getIdentifier(), 5);
         return fragment;
     }
 
+    public int getCount() {
+        return controller.getData().getTabsCount();
+    }
 
-
-
+    public CharSequence getTitle(int position) {
+        return controller.getData().getTabData(position).getTitle();
+    }
 }

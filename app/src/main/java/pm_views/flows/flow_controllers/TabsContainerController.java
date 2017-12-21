@@ -1,10 +1,15 @@
 package pm_views.flows.flow_controllers;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+import java.util.UUID;
 
 import MVC.BaseController;
-import MVC.PMLifecycleOwner;
+import MVC.MockApi;
 import MVC.TabsContainerLifecycleOwner;
+import pm_views.flows.helpers.RandomHelper;
+import pm_views.flows.models.TabContainerData;
 
 /**
  * Created by nsohoni on 20/11/17.
@@ -12,19 +17,58 @@ import MVC.TabsContainerLifecycleOwner;
 
 public class TabsContainerController extends BaseController<TabsContainerLifecycleOwner> {
 
-    public static final int REQUEST_CODE_A = 1;
+    TabContainerData data = new TabContainerData();
 
     public TabsContainerController(TabsContainerLifecycleOwner lifecycleOwner) {
         super(lifecycleOwner);
+        fetchData();
     }
+
 
     @Override
     public void onResult(int requestCode, int resultOk, HashMap<String, Object> results) {
 
     }
 
+    public void fetchData(){
+        MockApi.getData(new MockApi.ResponseHandler() {
+            @Override
+            public void onSuccess() {
+                TabContainerData.TabData tabData = new TabContainerData.TabData();
+                tabData.setStrings(RandomHelper.getRandomStringsList());
+                tabData.setTitle("One");
+                data.addTabData(tabData);
+
+                tabData = new TabContainerData.TabData();
+                tabData.setStrings(RandomHelper.getRandomStringsList());
+                tabData.setTitle("Two");
+                data.addTabData(tabData);
+
+                tabData = new TabContainerData.TabData();
+                tabData.setTitle("Three");
+                data.addTabData(tabData);
+
+                getLifecycleOwner().updateViews();
+            }
+
+            @Override
+            public void onError() {
+
+            }
+        });
+    }
+
+
     @Override
     public void returnResults(HashMap<String, Object> hashMap, int returnCode) {
 
+    }
+
+    public TabContainerData getData(){
+        return data;
+    }
+
+    public TabContainerData.TabData getTabData(int position){
+        return data.tabData.get(position);
     }
 }

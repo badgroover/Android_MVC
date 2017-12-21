@@ -2,20 +2,16 @@ package pm_views.flows;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 
 import MVC.GlobalControllerFactory;
-import MVC.PMExtendedLifecycleOwner;
 import MVC.TabItemLifecycleOwner;
-import pm_views.PMActivity;
 import pm_views.PMFragment;
 import pm_views.R;
-import pm_views.flows.flow_controllers.PageTwoController;
 import pm_views.flows.flow_controllers.TabItemController;
 
 /**
@@ -27,11 +23,13 @@ public class TabItemFragment extends PMFragment implements TabItemLifecycleOwner
 
 
     TabItemController controller;
-
+    ListView myListview;
+    ArrayAdapter<String> adapter;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         controller = GlobalControllerFactory.getInstance().createControllerForLifecycleOwner(this, TabItemController.class);
+        controller.parseArguments(getArguments());
     }
 
     @Nullable
@@ -54,11 +52,16 @@ public class TabItemFragment extends PMFragment implements TabItemLifecycleOwner
     @Override
     public void updateViews() {
         super.updateViews();
+        adapter.addAll(controller.getData().getStrings());
+        myListview.setAdapter(adapter);
     }
 
     @Override
     public void setupViews() {
         super.setupViews();
+        View v = getView();
+        myListview = (ListView)v.findViewById(R.id.listview);
+        adapter = new ArrayAdapter<String>(this.getContext(), android.R.layout.simple_list_item_1);
     }
 
     @Override

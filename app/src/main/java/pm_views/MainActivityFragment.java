@@ -11,18 +11,20 @@ import android.widget.TextView;
 import MVC.AddressController;
 import MVC.DataFetchListener;
 import MVC.GlobalControllerFactory;
+import MVC.MainActivityFragmentLifeCycleOwner;
 import MVC.UserModel;
 import lifecycle.MyLifecycleObserver;
 import pm_views.flows.PageOneFragment;
 import pm_views.flows.TabsContainerFragment;
+import pm_views.flows.flow_controllers.MainActivityFragmentController;
 
 /**
  * A placeholder fragment containing a simple view.
  */
-public class MainActivityFragment extends PMFragment {
+public class MainActivityFragment extends PMFragment implements MainActivityFragmentLifeCycleOwner {
 
     private MyLifecycleObserver observer;
-    private AddressController controller;
+    private MainActivityFragmentController controller;
 
     View    threeFlows, autoClose, tabsContainer;
 
@@ -33,7 +35,7 @@ public class MainActivityFragment extends PMFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        controller = GlobalControllerFactory.getInstance().createControllerForLifecycleOwner(this, AddressController.class);
+        controller = GlobalControllerFactory.getInstance().createControllerForLifecycleOwner(this, MainActivityFragmentController.class);
         getLifecycle().addObserver(controller);
     }
 
@@ -83,5 +85,8 @@ public class MainActivityFragment extends PMFragment {
 
     }
 
-
+    @Override
+    public Class getViewInterface() {
+        return MainActivityFragmentLifeCycleOwner.class;
+    }
 }

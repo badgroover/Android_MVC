@@ -25,11 +25,11 @@ public class TabsAdapter extends FragmentStatePagerAdapter {
 
     @Override
     public int getCount() {
-        return 3;
+        return containerFragment.getCount();
     }
 
     @Override
     public CharSequence getPageTitle(int position) {
-        return position+"";
+        return containerFragment.getTitle(position);
     }
 }
