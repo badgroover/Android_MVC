@@ -21,33 +21,12 @@ public class MainActivity extends PMActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         //setSupportActionBar(toolbar);
 
-        FloatingActionButton fab1 = (FloatingActionButton) findViewById(R.id.fab1);
-        fab1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                launchFragment(MainActivityFragment.class);
-            }
-        });
 
-        FloatingActionButton fab2 = (FloatingActionButton) findViewById(R.id.fab2);
-        fab2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                launchFragment(PageOneFragment.class);
-            }
-        });
-
-        FloatingActionButton fab3 = (FloatingActionButton) findViewById(R.id.fab3);
-        fab3.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                launchFragment(AutoCloseFragment.class);
-            }
-        });
 
         observer = new MyActivityLifecycleObserver(this, getLifecycle());
 
         getLifecycle().addObserver(observer);
+        launchFragment(MainActivityFragment.class);
     }
 
     @Override

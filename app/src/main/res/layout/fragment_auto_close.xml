@@ -17,6 +17,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="50dp"
-        android:text="Second Fragment"/>
+        android:textSize="20dp"
+        android:gravity="center"
+        android:textStyle="bold"
+        android:text="This will auto close"/>
 
 </LinearLayout>
