@@ -6,12 +6,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import MVC.AddressController;
 import MVC.DataFetchListener;
 import MVC.GlobalControllerFactory;
 import MVC.UserModel;
 import lifecycle.MyLifecycleObserver;
+import pm_views.flows.PageOneFragment;
 
 /**
  * A placeholder fragment containing a simple view.
@@ -21,12 +23,7 @@ public class MainActivityFragment extends PMFragment {
     private MyLifecycleObserver observer;
     private AddressController controller;
 
-    EditText    name;
-    EditText    address1;
-    EditText    address2;
-    EditText    city;
-    Button      testAsyncDataFetchButton;
-    Button      launchFragmentBtn;
+    View    threeFlows, autoClose;
 
     public MainActivityFragment() {
     }
@@ -54,50 +51,26 @@ public class MainActivityFragment extends PMFragment {
     public void setupViews(){
         //called by controller at the appropriate time
         View v = getView();
-        name = (EditText) v.findViewById(R.id.name);
-        address1 = (EditText) v.findViewById(R.id.add1);
-        address2 = (EditText) v.findViewById(R.id.add2);
-        city = (EditText) v.findViewById(R.id.city);
-        testAsyncDataFetchButton = (Button) v.findViewById(R.id.fetchDataButton);
-
-        testAsyncDataFetchButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                controller.getSecondaryAddress(new DataFetchListener<UserModel>() {
-                    @Override
-                    public void success(UserModel data) {
-                        updateViews();
-                    }
-
-                    @Override
-                    public void error() {
-
-                    }
-                });
-            }
-        });
-
-        launchFragmentBtn = (Button) v.findViewById(R.id.launchFragmentBtn);
-
-        launchFragmentBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-            }
-        });
+        threeFlows = v.findViewById(R.id.three_fragment_flow);
+        autoClose = v.findViewById(R.id.auto_close);
 
     }
 
 
     @Override
     public void updateViews() {
-        //called by the controller when the model has been updated.
-        /*UserModel model = controller.getModel(UserModel.class);
-        if(model != null) {
-            name.setText(model.name);
-            address1.setText(model.address1);
-            address2.setText(model.address2);
-            city.setText(model.city);
-        }*/
+        threeFlows.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getOwnerActivity().launchFragment(PageOneFragment.class);
+            }
+        });
+        autoClose.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getOwnerActivity().launchFragment(AutoCloseFragment.class);
+            }
+        });
 
     }
 
