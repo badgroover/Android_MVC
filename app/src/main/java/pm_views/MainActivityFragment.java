@@ -14,6 +14,7 @@ import MVC.GlobalControllerFactory;
 import MVC.UserModel;
 import lifecycle.MyLifecycleObserver;
 import pm_views.flows.PageOneFragment;
+import pm_views.flows.TabsContainerFragment;
 
 /**
  * A placeholder fragment containing a simple view.
@@ -23,7 +24,7 @@ public class MainActivityFragment extends PMFragment {
     private MyLifecycleObserver observer;
     private AddressController controller;
 
-    View    threeFlows, autoClose;
+    View    threeFlows, autoClose, tabsContainer;
 
     public MainActivityFragment() {
     }
@@ -53,6 +54,7 @@ public class MainActivityFragment extends PMFragment {
         View v = getView();
         threeFlows = v.findViewById(R.id.three_fragment_flow);
         autoClose = v.findViewById(R.id.auto_close);
+        tabsContainer = v.findViewById(R.id.tabs_container);
 
     }
 
@@ -69,6 +71,13 @@ public class MainActivityFragment extends PMFragment {
             @Override
             public void onClick(View v) {
                 getOwnerActivity().launchFragment(AutoCloseFragment.class);
+            }
+        });
+
+        tabsContainer.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getOwnerActivity().launchFragment(TabsContainerFragment.class);
             }
         });
 
