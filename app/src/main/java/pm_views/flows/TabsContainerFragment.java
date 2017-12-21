@@ -57,6 +57,7 @@ public class TabsContainerFragment extends PMFragment implements TabsContainerLi
     public void updateViews() {
         super.updateViews();
         vpPager.setAdapter(adapter);
+        //vpPager.setCurrentItem(1);
     }
 
     @Override
