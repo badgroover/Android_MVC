@@ -62,21 +62,6 @@ public class PageFourFragment extends PMFragment {
         super.setupViews();
     }
 
-    @Override
-    protected boolean isMarkedForDeath() {
-        if(controller != null && controller.isControllerAlive()) {
-            return controller.isMarkedForDeath();
-        } else {
-            return false;
-        }
-    }
-
-    @Override
-    protected void markForDeath() {
-        if(controller != null && controller.isControllerAlive()) {
-            controller.markForDeath();
-        }
-    }
 
 }
 

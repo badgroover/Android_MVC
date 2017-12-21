@@ -37,6 +37,14 @@ public class MainActivity extends PMActivity {
             }
         });
 
+        FloatingActionButton fab3 = (FloatingActionButton) findViewById(R.id.fab3);
+        fab3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                launchFragment(AutoCloseFragment.class);
+            }
+        });
+
         observer = new MyActivityLifecycleObserver(this, getLifecycle());
 
         getLifecycle().addObserver(observer);

@@ -1,6 +1,7 @@
 package pm_views.flows.flow_controllers;
 
 import android.app.Activity;
+import android.arch.lifecycle.Lifecycle;
 
 import java.util.HashMap;
 import java.util.UUID;
@@ -8,6 +9,7 @@ import java.util.UUID;
 import MVC.BaseController;
 import MVC.GlobalControllerFactory;
 import MVC.PMExtendedLifecycleOwner;
+import MVC.PMLifecycleOwner;
 
 /**
  * Created by nsohoni on 08/11/17.
@@ -26,23 +28,11 @@ public class PageTwoController extends BaseController<PMExtendedLifecycleOwner> 
         switch (requestCode) {
             case REQUEST_CODE_B:
                 PMExtendedLifecycleOwner owner = getLifecycleOwner();
-
-                if(isControllerAlive() && owner != null) {
-                    UUID targetId = owner.getTargetLifecycleOwner();
-                    int  targetRequestCode = owner.getRequestCode();
-                    //find the controller
-                    BaseController controller = GlobalControllerFactory.getInstance().getControllerForLifecycleOwner(targetId);
-                    controller.onResult(targetRequestCode, Activity.RESULT_OK, null);
-                    owner.killFragment();
-                }
+                returnResults(results, resultOk);
                 break;
 
         }
     }
 
-    @Override
-    public void returnResults(HashMap<String, Object> hashMap, int returnCode) {
-
-    }
 }
 

@@ -37,15 +37,6 @@ public class SecondFragment extends PMFragment {
     public void setupViews(){
     }
 
-    @Override
-    protected boolean isMarkedForDeath() {
-        return false;
-    }
-
-    @Override
-    protected void markForDeath() {
-
-    }
 
     @Override
     public void updateViews() {

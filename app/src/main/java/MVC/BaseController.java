@@ -11,6 +11,7 @@ import android.support.v4.app.FragmentActivity;
 
 import java.lang.ref.WeakReference;
 import java.util.HashMap;
+import java.util.UUID;
 import java.util.concurrent.LinkedBlockingQueue;
 
 import pm_views.PMActivity;
@@ -25,7 +26,6 @@ public abstract class BaseController<L extends PMLifecycleOwner> implements Life
     private WeakReference<L>                        lifecycleRegistryOwner;
     private Object                                  mutex = new Object();
     private boolean                                 isControllerAlive = false;
-    boolean                                         bIsMarkedForDeath = false;
     HashMap<String, Object>                         returnData;
     LinkedBlockingQueue<MESSAGE_TYPE>               deferredCommand = new LinkedBlockingQueue<>(1);
     int returnCode;
@@ -71,8 +71,6 @@ public abstract class BaseController<L extends PMLifecycleOwner> implements Life
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-            } else if(isMarkedForDeath()) {
-                queueExit();
             } else {
                 owner.setupViews();
             }
@@ -159,16 +157,22 @@ public abstract class BaseController<L extends PMLifecycleOwner> implements Life
         }
     }
 
-    public void markForDeath() {
-        bIsMarkedForDeath = true;
-    }
-
-    public boolean isMarkedForDeath() {
-        return bIsMarkedForDeath;
-    }
-
 
     public abstract void onResult(int requestCode, int resultOk, HashMap<String, Object> results);
 
-    public abstract void returnResults(HashMap<String, Object> hashMap, int returnCode);
+    public void returnResults(HashMap<String, Object> hashMap, int returnCode) {
+        PMLifecycleOwner owner = getLifecycleOwner();
+        if(isControllerAlive()) {
+            UUID targetId = owner.getTargetLifecycleOwner();
+            int requestCode = owner.getRequestCode();
+            BaseController controller = GlobalControllerFactory.getInstance().getControllerForLifecycleOwner(targetId);
+
+            if (owner.getLifecycle().getCurrentState().isAtLeast(Lifecycle.State.RESUMED)) {
+                controller.onResult(requestCode, returnCode, hashMap);
+                exit();
+            } else {
+                queueReturnResultsAndExit(hashMap, returnCode);
+            }
+        }
+    }
 }

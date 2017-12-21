@@ -30,7 +30,7 @@ public class MockApi {
             @Override
             public void run() {
                 try {
-                    sleep(7000);
+                    sleep(3000);
                     h.sendEmptyMessage(0);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
