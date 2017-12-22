@@ -7,6 +7,8 @@ import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 
 
 import java.lang.ref.WeakReference;
@@ -15,6 +17,8 @@ import java.util.UUID;
 import java.util.concurrent.LinkedBlockingQueue;
 
 import pm_views.PMActivity;
+import pm_views.PMFragment;
+import pm_views.R;
 
 /**
  * Created by nsohoni on 14/10/17.
@@ -28,6 +32,7 @@ public abstract class BaseController<L extends PMLifecycleOwner> implements Life
     private boolean                                 isControllerAlive = false;
     HashMap<String, Object>                         returnData;
     LinkedBlockingQueue<MESSAGE_TYPE>               deferredCommand = new LinkedBlockingQueue<>(1);
+    HashMap<String, Object>                         arguments;
     int returnCode;
 
     protected enum MESSAGE_TYPE {EXIT, RETURN_DATA_AND_EXIT};
@@ -45,6 +50,38 @@ public abstract class BaseController<L extends PMLifecycleOwner> implements Life
             return false;
         } });
 
+
+    public BaseController() {
+        //create the associated view(fragment)
+    }
+
+    public void init(PMActivity pmActivity, Class fragmentClass) {
+        //launch the fragment associated with this controller
+        pmActivity.launchFragment(fragmentClass);
+
+        PMFragment fragment;
+        try {
+            fragment = (PMFragment) fragmentClass.newInstance();
+            GlobalControllerFactory.getInstance().addController(fragment.getIdentifier(), this);
+            FragmentManager fm = pmActivity.getSupportFragmentManager();
+            int count = fm.getBackStackEntryCount();
+            FragmentTransaction ft = fm.beginTransaction();
+            ft.replace(R.id.fragmentContainer, fragment, Integer.toString(count + 1));
+            ft.addToBackStack(Integer.toString(count + 1));
+            ft.commit();
+
+        } catch (InstantiationException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        }
+
+
+    }
+
+    public void setArguments(HashMap<String, Object> args) {
+        arguments = args;
+    }
 
     public BaseController(L lifecycleOwner) {
         isControllerAlive = true;

@@ -17,6 +17,7 @@ import lifecycle.MyLifecycleObserver;
 import pm_views.flows.PageOneFragment;
 import pm_views.flows.TabsContainerFragment;
 import pm_views.flows.flow_controllers.MainActivityFragmentController;
+import pm_views.flows.flow_controllers.TabsContainerController;
 
 /**
  * A placeholder fragment containing a simple view.
@@ -79,7 +80,7 @@ public class MainActivityFragment extends PMFragment implements MainActivityFrag
         tabsContainer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getOwnerActivity().launchFragment(TabsContainerFragment.class);
+                getOwnerActivity().launchController(TabsContainerController.class, TabsContainerFragment.class, null);
             }
         });
 

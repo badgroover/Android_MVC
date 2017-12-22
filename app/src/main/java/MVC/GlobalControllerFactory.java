@@ -90,4 +90,12 @@ public class GlobalControllerFactory {
             map.remove(fragmentId);
         }
     }
+
+    public void addController(UUID fragmentId, BaseController controller) {
+        if(!map.containsKey(fragmentId)) {
+            map.put(fragmentId,controller);
+        } else {
+            //This should not happen. Either the calling code is messing up or something else is going on
+        }
+    }
 }
