@@ -19,6 +19,10 @@ public class TabsContainerController extends BaseController<TabsContainerLifecyc
 
     TabContainerData data = new TabContainerData();
 
+
+    public TabsContainerController() {
+    }
+
     public TabsContainerController(TabsContainerLifecycleOwner lifecycleOwner) {
         super(lifecycleOwner);
         fetchData();
