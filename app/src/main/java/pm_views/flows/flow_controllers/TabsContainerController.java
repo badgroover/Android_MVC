@@ -23,11 +23,11 @@ public class TabsContainerController extends BaseController<TabsContainerLifecyc
     public TabsContainerController() {
     }
 
-    public TabsContainerController(TabsContainerLifecycleOwner lifecycleOwner) {
-        super(lifecycleOwner);
+    @Override
+    public void create() {
+        super.create();
         fetchData();
     }
-
 
     @Override
     public void onResult(int requestCode, int resultOk, HashMap<String, Object> results) {

@@ -57,7 +57,7 @@ public abstract class BaseController<L extends PMLifecycleOwner> implements Life
 
     public void init(PMActivity pmActivity, Class fragmentClass) {
         //launch the fragment associated with this controller
-        pmActivity.launchFragment(fragmentClass);
+        //pmActivity.launchFragment(fragmentClass);
 
         PMFragment fragment;
         try {
@@ -86,6 +86,10 @@ public abstract class BaseController<L extends PMLifecycleOwner> implements Life
     public BaseController(L lifecycleOwner) {
         isControllerAlive = true;
         this.lifecycleRegistryOwner = new WeakReference(lifecycleOwner);
+    }
+
+    @OnLifecycleEvent(Lifecycle.Event.ON_CREATE)
+    public void create() {
     }
 
     @OnLifecycleEvent(Lifecycle.Event.ON_START)

@@ -20,6 +20,11 @@ public abstract class PMFragment extends DialogFragment implements PMLifecycleOw
     UUID                targetLifecycleOwner;
     int                 requestCode = -1;
 
+
+    public PMFragment() {
+        fragmentId = UUID.randomUUID();
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,8 +35,6 @@ public abstract class PMFragment extends DialogFragment implements PMLifecycleOw
                 targetLifecycleOwner = UUID.fromString(targetId);
             }
             requestCode = savedInstanceState.getInt("REQUEST_CODE", -1);
-        } else {
-            fragmentId = UUID.randomUUID();
         }
     }
     @Override
