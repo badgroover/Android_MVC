@@ -96,6 +96,7 @@ public class GlobalControllerFactory {
             map.put(fragmentId,controller);
         } else {
             //This should not happen. Either the calling code is messing up or something else is going on
+            throw new RuntimeException("Are you sure? This seems to be a Duplicate ID?" + fragmentId.toString());
         }
     }
 }
