@@ -5,22 +5,21 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import pm_views.flows.flow_controllers.AutoCloseFragmentController;
+import pm_views.flows.controllers.AutoCloseFragmentController;
 import MVC.GlobalControllerFactory;
-import pm_views.life_cycler_owners.MainActivityFragmentLifeCycleOwner;
-import lifecycle.MyLifecycleObserver;
-import pm_views.flows.PageOneFragment;
-import pm_views.flows.TabsContainerFragment;
-import pm_views.flows.flow_controllers.MainActivityFragmentController;
-import pm_views.flows.flow_controllers.PageOneController;
-import pm_views.flows.flow_controllers.TabsContainerController;
+import pm_views.flows.life_cycler_owners.MainActivityFragmentLifeCycleOwner;
+import pm_views.flows.views.PageOneFragment;
+import pm_views.flows.views.TabsContainerFragment;
+import pm_views.flows.controllers.MainActivityFragmentController;
+import pm_views.flows.controllers.PageOneController;
+import pm_views.flows.controllers.TabsContainerController;
 
 /**
  * A placeholder fragment containing a simple view.
  */
 public class MainActivityFragment extends PMFragment<MainActivityFragmentController> implements MainActivityFragmentLifeCycleOwner {
 
-    private MyLifecycleObserver observer;
+
 
     View    threeFlows, autoClose, tabsContainer;
 

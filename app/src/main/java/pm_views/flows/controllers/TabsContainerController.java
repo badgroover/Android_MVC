@@ -1,10 +1,10 @@
-package pm_views.flows.flow_controllers;
+package pm_views.flows.controllers;
 
 import java.util.HashMap;
 
 import MVC.BaseController;
 import utils.MockApi;
-import pm_views.life_cycler_owners.TabsContainerLifecycleOwner;
+import pm_views.flows.life_cycler_owners.TabsContainerLifecycleOwner;
 import pm_views.flows.helpers.RandomHelper;
 import pm_views.flows.models.TabContainerData;
 

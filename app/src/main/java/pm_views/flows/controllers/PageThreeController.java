@@ -1,4 +1,4 @@
-package pm_views.flows.flow_controllers;
+package pm_views.flows.controllers;
 
 import android.app.Activity;
 

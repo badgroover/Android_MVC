@@ -1,4 +1,4 @@
-package pm_views.flows.flow_controllers;
+package pm_views.flows.controllers;
 
 import java.util.HashMap;
 

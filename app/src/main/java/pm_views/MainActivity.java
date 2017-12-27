@@ -1,15 +1,13 @@
 package pm_views;
 
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 
 import lifecycle.MyActivityLifecycleObserver;
-import pm_views.flows.PageOneFragment;
-import pm_views.flows.flow_controllers.MainActivityFragmentController;
+import pm_views.flows.controllers.MainActivityFragmentController;
 
 public class MainActivity extends PMActivity {
 

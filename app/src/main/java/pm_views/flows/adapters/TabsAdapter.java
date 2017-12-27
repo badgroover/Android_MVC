@@ -1,10 +1,10 @@
-package pm_views.flows.pager_adapter;
+package pm_views.flows.adapters;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
-import pm_views.flows.TabsContainerFragment;
+import pm_views.flows.views.TabsContainerFragment;
 
 /**
  * Created by shrikanth on 12/21/17.

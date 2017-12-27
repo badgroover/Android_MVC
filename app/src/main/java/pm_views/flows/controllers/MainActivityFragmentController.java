@@ -1,4 +1,4 @@
-package pm_views.flows.flow_controllers;
+package pm_views.flows.controllers;
 
 import android.arch.lifecycle.Lifecycle;
 import android.arch.lifecycle.OnLifecycleEvent;
@@ -6,7 +6,7 @@ import android.arch.lifecycle.OnLifecycleEvent;
 import java.util.HashMap;
 
 import MVC.BaseController;
-import pm_views.life_cycler_owners.MainActivityFragmentLifeCycleOwner;
+import pm_views.flows.life_cycler_owners.MainActivityFragmentLifeCycleOwner;
 
 import static java.lang.Thread.sleep;
 

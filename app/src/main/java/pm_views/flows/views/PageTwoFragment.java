@@ -1,4 +1,4 @@
-package pm_views.flows;
+package pm_views.flows.views;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -10,12 +10,12 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import MVC.GlobalControllerFactory;
-import pm_views.life_cycler_owners.PMExtendedLifecycleOwner;
+import pm_views.flows.life_cycler_owners.PMExtendedLifecycleOwner;
 import pm_views.PMActivity;
 import pm_views.PMFragment;
 import pm_views.R;
-import pm_views.flows.flow_controllers.PageThreeController;
-import pm_views.flows.flow_controllers.PageTwoController;
+import pm_views.flows.controllers.PageThreeController;
+import pm_views.flows.controllers.PageTwoController;
 
 /**
  * Created by shrikanth on 11/6/17.

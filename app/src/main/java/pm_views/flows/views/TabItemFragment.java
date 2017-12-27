@@ -1,4 +1,4 @@
-package pm_views.flows;
+package pm_views.flows.views;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -9,10 +9,10 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import MVC.GlobalControllerFactory;
-import pm_views.life_cycler_owners.TabItemLifecycleOwner;
+import pm_views.flows.life_cycler_owners.TabItemLifecycleOwner;
 import pm_views.PMFragment;
 import pm_views.R;
-import pm_views.flows.flow_controllers.TabItemController;
+import pm_views.flows.controllers.TabItemController;
 
 /**
  * Created by shrikanth on 11/6/17.

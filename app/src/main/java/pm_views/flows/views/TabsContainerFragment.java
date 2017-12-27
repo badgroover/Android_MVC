@@ -1,4 +1,4 @@
-package pm_views.flows;
+package pm_views.flows.views;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -12,12 +12,12 @@ import java.util.HashMap;
 import java.util.Map;
 
 import MVC.GlobalControllerFactory;
-import pm_views.life_cycler_owners.TabsContainerLifecycleOwner;
+import pm_views.flows.life_cycler_owners.TabsContainerLifecycleOwner;
 import pm_views.PMFragment;
 import pm_views.R;
-import pm_views.flows.flow_controllers.TabItemController;
-import pm_views.flows.flow_controllers.TabsContainerController;
-import pm_views.flows.pager_adapter.TabsAdapter;
+import pm_views.flows.controllers.TabItemController;
+import pm_views.flows.controllers.TabsContainerController;
+import pm_views.flows.adapters.TabsAdapter;
 
 /**
  * Created by shrikanth on 12/21/17.

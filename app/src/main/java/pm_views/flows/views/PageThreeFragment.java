@@ -1,4 +1,4 @@
-package pm_views.flows;
+package pm_views.flows.views;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -10,29 +10,26 @@ import android.widget.Button;
 import MVC.GlobalControllerFactory;
 import pm_views.PMFragment;
 import pm_views.R;
-import pm_views.flows.flow_controllers.PageFourController;
-import pm_views.flows.flow_controllers.PageOneController;
-import pm_views.flows.flow_controllers.PageTwoController;
+import pm_views.flows.controllers.PageThreeController;
 
 /**
- * Created by nsohoni on 20/11/17.
+ * Created by shrikanth on 11/6/17.
  */
 
-public class PageFourFragment extends PMFragment {
+public class PageThreeFragment extends PMFragment<PageThreeController>{
 
 
     Button click;
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        controller = GlobalControllerFactory.getInstance().createControllerForLifecycleOwner(this, PageFourController.class);
+        controller = GlobalControllerFactory.getInstance().createControllerForLifecycleOwner(this, PageThreeController.class);
     }
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_page_four, container, false);
+        return inflater.inflate(R.layout.fragment_page_three, container, false);
     }
 
     @Override
@@ -42,7 +39,7 @@ public class PageFourFragment extends PMFragment {
         click.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getOwnerActivity().launchControllerForResult(PageTwoController.class, PageTwoFragment.class, null, controller, PageOneController.REQUEST_CODE_A);
+                passBack();
             }
         });
     }
@@ -63,6 +60,7 @@ public class PageFourFragment extends PMFragment {
         super.setupViews();
     }
 
-
+    private void passBack(){
+        controller.passBackResults();
+    }
 }
-
