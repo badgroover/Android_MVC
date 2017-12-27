@@ -13,6 +13,7 @@ import pm_views.R;
 import pm_views.flows.controllers.PageFourController;
 import pm_views.flows.controllers.PageOneController;
 import pm_views.flows.controllers.PageTwoController;
+import pm_views.flows.models.RequestCode;
 
 /**
  * Created by nsohoni on 20/11/17.
@@ -42,7 +43,7 @@ public class PageFourFragment extends PMFragment {
         click.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getOwnerActivity().launchControllerForResult(PageTwoController.class, PageTwoFragment.class, null, controller, PageOneController.REQUEST_CODE_A);
+                getOwnerActivity().launchControllerForResult(PageTwoController.class, PageTwoFragment.class, null, controller, RequestCode.ONE);
             }
         });
     }

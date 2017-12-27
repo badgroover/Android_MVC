@@ -31,6 +31,7 @@ public abstract class BaseController<L extends PMLifecycleOwner> implements Life
     private LinkedBlockingQueue<MESSAGE_TYPE>       deferredCommand = new LinkedBlockingQueue<>(1);
     protected Map<String, Object>                     arguments;
     private int requestCode;
+    private int returnCode;
     private ResultsListener                         resultsListener;
 
     protected enum MESSAGE_TYPE {EXIT, RETURN_DATA_AND_EXIT};
@@ -43,7 +44,7 @@ public abstract class BaseController<L extends PMLifecycleOwner> implements Life
                 case EXIT:
                     exit();
                 case RETURN_DATA_AND_EXIT:
-                    returnResults(returnData, requestCode);
+                    returnResults(returnData, returnCode);
             }
             return false;
         } });
@@ -160,7 +161,7 @@ public abstract class BaseController<L extends PMLifecycleOwner> implements Life
 
     public void queueReturnResultsAndExit(HashMap<String, Object> hashMap, int returnCode) {
         returnData = hashMap;
-        this.requestCode = returnCode;
+        this.returnCode = returnCode;
         deferredCommand.clear();
         deferredCommand.add(MESSAGE_TYPE.RETURN_DATA_AND_EXIT);
     }

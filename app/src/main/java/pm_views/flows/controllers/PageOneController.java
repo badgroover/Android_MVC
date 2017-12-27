@@ -4,6 +4,7 @@ import java.util.HashMap;
 
 import MVC.BaseController;
 import pm_views.flows.life_cycler_owners.PMExtendedLifecycleOwner;
+import pm_views.flows.models.RequestCode;
 
 /**
  * Created by nsohoni on 08/11/17.
@@ -11,7 +12,7 @@ import pm_views.flows.life_cycler_owners.PMExtendedLifecycleOwner;
 
 public class PageOneController extends BaseController<PMExtendedLifecycleOwner>   {
 
-    public static final int REQUEST_CODE_A = 1;
+
     int count = 0;
 
     public PageOneController() {
@@ -24,7 +25,7 @@ public class PageOneController extends BaseController<PMExtendedLifecycleOwner> 
     @Override
     public void onResult(int requestCode, int resultOk, HashMap<String, Object> results) {
         switch(requestCode) {
-            case REQUEST_CODE_A:
+            case RequestCode.ONE:
                 PMExtendedLifecycleOwner owner = getLifecycleOwner();
                 owner.launchNextFragment();
                 break;

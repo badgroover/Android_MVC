@@ -14,6 +14,7 @@ import pm_views.PMFragment;
 import pm_views.R;
 import pm_views.flows.controllers.PageOneController;
 import pm_views.flows.controllers.PageTwoController;
+import pm_views.flows.models.RequestCode;
 
 /**
  * Created by shrikanth on 11/6/17.
@@ -50,7 +51,7 @@ public class PageOneFragment extends PMFragment<PageOneController> implements PM
         click.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getOwnerActivity().launchControllerForResult(PageTwoController.class, PageTwoFragment.class, null, controller, PageOneController.REQUEST_CODE_A);
+                getOwnerActivity().launchControllerForResult(PageTwoController.class, PageTwoFragment.class, null, controller, RequestCode.ONE);
             }
         });
     }
