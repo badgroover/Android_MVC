@@ -6,34 +6,32 @@ import android.arch.lifecycle.OnLifecycleEvent;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
+import android.support.annotation.CallSuper;
 import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 
 
 import java.lang.ref.WeakReference;
 import java.util.HashMap;
-import java.util.UUID;
+import java.util.Map;
 import java.util.concurrent.LinkedBlockingQueue;
 
 import pm_views.PMActivity;
-import pm_views.PMFragment;
-import pm_views.R;
 
 /**
  * Created by nsohoni on 14/10/17.
  */
 
-public abstract class BaseController<L extends PMLifecycleOwner> implements LifecycleObserver {
+public abstract class BaseController<L extends PMLifecycleOwner> implements LifecycleObserver, ResultsListener {
 
     protected PM_Model                              model;
     private WeakReference<L>                        lifecycleRegistryOwner;
     private Object                                  mutex = new Object();
     private boolean                                 isControllerAlive = false;
-    HashMap<String, Object>                         returnData;
-    LinkedBlockingQueue<MESSAGE_TYPE>               deferredCommand = new LinkedBlockingQueue<>(1);
-    HashMap<String, Object>                         arguments;
-    int returnCode;
+    private HashMap<String, Object>                 returnData;
+    private LinkedBlockingQueue<MESSAGE_TYPE>       deferredCommand = new LinkedBlockingQueue<>(1);
+    protected Map<String, Object>                     arguments;
+    private int requestCode;
+    private ResultsListener                         resultsListener;
 
     protected enum MESSAGE_TYPE {EXIT, RETURN_DATA_AND_EXIT};
 
@@ -45,41 +43,19 @@ public abstract class BaseController<L extends PMLifecycleOwner> implements Life
                 case EXIT:
                     exit();
                 case RETURN_DATA_AND_EXIT:
-                    returnResults(returnData, returnCode);
+                    returnResults(returnData, requestCode);
             }
             return false;
         } });
 
 
+
     public BaseController() {
         //create the associated view(fragment)
+        isControllerAlive = true;
     }
 
-    public void init(PMActivity pmActivity, Class fragmentClass) {
-        //launch the fragment associated with this controller
-        //pmActivity.launchFragment(fragmentClass);
-
-        PMFragment fragment;
-        try {
-            fragment = (PMFragment) fragmentClass.newInstance();
-            GlobalControllerFactory.getInstance().addController(fragment.getIdentifier(), this);
-            FragmentManager fm = pmActivity.getSupportFragmentManager();
-            int count = fm.getBackStackEntryCount();
-            FragmentTransaction ft = fm.beginTransaction();
-            ft.replace(R.id.fragmentContainer, fragment, Integer.toString(count + 1));
-            ft.addToBackStack(Integer.toString(count + 1));
-            ft.commit();
-
-        } catch (InstantiationException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        }
-
-
-    }
-
-    public void setArguments(HashMap<String, Object> args) {
+    public void setArguments(Map<String, Object> args) {
         arguments = args;
     }
 
@@ -184,7 +160,7 @@ public abstract class BaseController<L extends PMLifecycleOwner> implements Life
 
     public void queueReturnResultsAndExit(HashMap<String, Object> hashMap, int returnCode) {
         returnData = hashMap;
-        this.returnCode = returnCode;
+        this.requestCode = returnCode;
         deferredCommand.clear();
         deferredCommand.add(MESSAGE_TYPE.RETURN_DATA_AND_EXIT);
     }
@@ -198,18 +174,19 @@ public abstract class BaseController<L extends PMLifecycleOwner> implements Life
         }
     }
 
+    public void setResultsListener(ResultsListener resultsListener, int requestCode) {
+        this.resultsListener = resultsListener;
+        this.requestCode = requestCode;
+    }
 
+    @Override
     public abstract void onResult(int requestCode, int resultOk, HashMap<String, Object> results);
 
     public void returnResults(HashMap<String, Object> hashMap, int returnCode) {
         PMLifecycleOwner owner = getLifecycleOwner();
-        if(isControllerAlive()) {
-            UUID targetId = owner.getTargetLifecycleOwner();
-            int requestCode = owner.getRequestCode();
-            BaseController controller = GlobalControllerFactory.getInstance().getControllerForLifecycleOwner(targetId);
-
+        if(isControllerAlive() && resultsListener != null) {
             if (owner.getLifecycle().getCurrentState().isAtLeast(Lifecycle.State.RESUMED)) {
-                controller.onResult(requestCode, returnCode, hashMap);
+                resultsListener.onResult(requestCode, returnCode, hashMap);
                 exit();
             } else {
                 queueReturnResultsAndExit(hashMap, returnCode);

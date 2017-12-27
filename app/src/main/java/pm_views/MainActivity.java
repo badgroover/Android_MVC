@@ -9,6 +9,7 @@ import android.view.MenuItem;
 
 import lifecycle.MyActivityLifecycleObserver;
 import pm_views.flows.PageOneFragment;
+import pm_views.flows.flow_controllers.MainActivityFragmentController;
 
 public class MainActivity extends PMActivity {
 
@@ -26,7 +27,7 @@ public class MainActivity extends PMActivity {
         observer = new MyActivityLifecycleObserver(this, getLifecycle());
 
         getLifecycle().addObserver(observer);
-        launchFragment(MainActivityFragment.class);
+        launchController(MainActivityFragmentController.class,MainActivityFragment.class,null);
     }
 
     @Override

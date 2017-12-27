@@ -18,7 +18,7 @@ import pm_views.flows.flow_controllers.TabItemController;
  * Created by shrikanth on 11/6/17.
  */
 
-public class TabItemFragment extends PMFragment implements TabItemLifecycleOwner {
+public class TabItemFragment extends PMFragment<TabItemController> implements TabItemLifecycleOwner {
 
 
 
@@ -29,7 +29,6 @@ public class TabItemFragment extends PMFragment implements TabItemLifecycleOwner
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         controller = GlobalControllerFactory.getInstance().createControllerForLifecycleOwner(this, TabItemController.class);
-        controller.parseArguments(getArguments());
     }
 
     @Nullable

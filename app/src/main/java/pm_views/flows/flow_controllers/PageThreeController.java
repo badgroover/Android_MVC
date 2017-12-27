@@ -17,6 +17,9 @@ import MVC.PMLifecycleOwner;
 
 public class PageThreeController extends BaseController<PMLifecycleOwner> {
 
+    public PageThreeController() {
+    }
+
     public PageThreeController(PMLifecycleOwner lifecycleOwner) {
         super(lifecycleOwner);
     }

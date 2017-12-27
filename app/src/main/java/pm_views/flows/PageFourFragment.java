@@ -12,6 +12,7 @@ import pm_views.PMFragment;
 import pm_views.R;
 import pm_views.flows.flow_controllers.PageFourController;
 import pm_views.flows.flow_controllers.PageOneController;
+import pm_views.flows.flow_controllers.PageTwoController;
 
 /**
  * Created by nsohoni on 20/11/17.
@@ -21,7 +22,7 @@ public class PageFourFragment extends PMFragment {
 
 
     Button click;
-    PageFourController controller;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,7 +42,7 @@ public class PageFourFragment extends PMFragment {
         click.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getOwnerActivity().launchFragmentForResult(PageTwoFragment.class, getIdentifier(), PageOneController.REQUEST_CODE_A);
+                getOwnerActivity().launchControllerForResult(PageTwoController.class, PageTwoFragment.class, null, controller, PageOneController.REQUEST_CODE_A);
             }
         });
     }

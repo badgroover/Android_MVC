@@ -15,8 +15,6 @@ public interface PMLifecycleOwner extends LifecycleRegistryOwner{
     void        setupViews();
     PMActivity  getOwnerActivity();
     UUID        getIdentifier();
-    UUID        getTargetLifecycleOwner();
-    int         getRequestCode();
     void        kill();
     Class getViewInterface();
 }

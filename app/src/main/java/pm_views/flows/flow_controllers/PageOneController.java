@@ -13,6 +13,10 @@ public class PageOneController extends BaseController<PMExtendedLifecycleOwner> 
 
     public static final int REQUEST_CODE_A = 1;
     int count = 0;
+
+    public PageOneController() {
+    }
+
     public PageOneController(PMExtendedLifecycleOwner lifecycleOwner) {
         super(lifecycleOwner);
     }

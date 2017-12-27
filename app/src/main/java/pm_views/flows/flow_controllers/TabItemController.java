@@ -20,9 +20,8 @@ public class TabItemController extends BaseController<TabItemLifecycleOwner> {
     int index;
     String title;
     TabContainerData.TabData data;
-    public void parseArguments(Bundle b){
-        index = b.getInt("index");
-        title = b.getString("title");
+
+    public TabItemController() {
     }
 
     public TabItemController(TabItemLifecycleOwner lifecycleOwner) {
@@ -30,10 +29,16 @@ public class TabItemController extends BaseController<TabItemLifecycleOwner> {
     }
 
     @Override
+    public void create() {
+        super.create();
+        index = (int)arguments.get("index");
+        title = (String)arguments.get("title");
+        data = (TabContainerData.TabData)arguments.get("tabData");
+    }
+
+    @Override
     public void start() {
         super.start();
-        TabsContainerController controller = (TabsContainerController)GlobalControllerFactory.getInstance().getControllerForLifecycleOwner(getLifecycleOwner().getTargetLifecycleOwner());
-        data = controller.getTabData(index);
     }
 
     @Override

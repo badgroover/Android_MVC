@@ -7,19 +7,19 @@ import android.support.v4.app.Fragment;
 
 import java.util.UUID;
 
+import MVC.BaseController;
 import MVC.PMLifecycleOwner;
+import MVC.ResultsListener;
 
 /**
  * Created by nsohoni on 16/10/17.
  */
 
-public abstract class PMFragment extends DialogFragment implements PMLifecycleOwner {
+public abstract class PMFragment<T extends BaseController> extends DialogFragment implements PMLifecycleOwner {
 
     UUID                fragmentId;
     LifecycleRegistry   mLifecycleRegistry = new LifecycleRegistry(this);
-    UUID                targetLifecycleOwner;
-    int                 requestCode = -1;
-
+    public T controller;
 
     public PMFragment() {
         fragmentId = UUID.randomUUID();
@@ -30,21 +30,12 @@ public abstract class PMFragment extends DialogFragment implements PMLifecycleOw
         super.onCreate(savedInstanceState);
         if(savedInstanceState != null) {
             fragmentId = UUID.fromString(savedInstanceState.getString("FRAGMENT_ID"));
-            String targetId = savedInstanceState.getString("TARGET_FRAGMENT_ID");
-            if(targetId != null) {
-                targetLifecycleOwner = UUID.fromString(targetId);
-            }
-            requestCode = savedInstanceState.getInt("REQUEST_CODE", -1);
         }
     }
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putString("FRAGMENT_ID", fragmentId.toString());
-        if(targetLifecycleOwner != null) {
-            outState.putString("TARGET_FRAGMENT_ID", targetLifecycleOwner.toString());
-        }
-        outState.putInt("REQUEST_CODE", requestCode);
     }
 
     @Override
@@ -67,31 +58,11 @@ public abstract class PMFragment extends DialogFragment implements PMLifecycleOw
         return fragmentId;
     }
 
-    public boolean isFragmentVisible() {
-        if(isVisible() && isAdded()) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
     @Override
     public PMActivity getOwnerActivity() {
         return (PMActivity) getActivity();
     }
 
-    public void setTargetController(UUID targetControllerId, int requestCode) {
-        this.targetLifecycleOwner = targetControllerId;
-        this.requestCode = requestCode;
-    }
-
-    public UUID getTargetLifecycleOwner() {
-        return targetLifecycleOwner;
-    }
-
-    public int getRequestCode() {
-        return requestCode;
-    }
 
     @Override
     public void kill() {

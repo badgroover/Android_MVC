@@ -2,32 +2,31 @@ package pm_views.flows;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
+import android.support.design.widget.TabItem;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import MVC.GlobalControllerFactory;
-import MVC.PMExtendedLifecycleOwner;
 import MVC.TabsContainerLifecycleOwner;
-import pm_views.PMActivity;
 import pm_views.PMFragment;
 import pm_views.R;
-import pm_views.flows.flow_controllers.PageTwoController;
+import pm_views.flows.flow_controllers.TabItemController;
 import pm_views.flows.flow_controllers.TabsContainerController;
-import pm_views.flows.models.TabContainerData;
 import pm_views.flows.pager_adapter.TabsAdapter;
 
 /**
  * Created by shrikanth on 12/21/17.
  */
 
-public class TabsContainerFragment extends PMFragment implements TabsContainerLifecycleOwner{
+public class TabsContainerFragment extends PMFragment<TabsContainerController> implements TabsContainerLifecycleOwner{
     Button click;
-    TabsContainerController controller;
+
     TabsAdapter adapter;
     ViewPager vpPager;
     @Override
@@ -73,12 +72,21 @@ public class TabsContainerFragment extends PMFragment implements TabsContainerLi
     }
 
     public PMFragment getTabFragment(int position){
-        Bundle b = new Bundle();
-        b.putString("title", position+"");
-        b.putInt("index", position);
+        Map<String, Object> map = new HashMap<>();
+        map.put("title", controller.getData().getTabData(position).getTitle());
+        map.put("index", position);
+        map.put("tabData", controller.getData().tabData.get(position));
         PMFragment fragment = new TabItemFragment();
-        fragment.setArguments(b);
-        fragment.setTargetController(getIdentifier(), 5);
+        try {
+            TabItemController tabItemController = TabItemController.class.newInstance();
+            tabItemController.setArguments(map);
+            GlobalControllerFactory.getInstance().addController(fragment.getIdentifier(), tabItemController);
+            tabItemController.setResultsListener(this.controller, 5);
+        } catch (java.lang.InstantiationException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        }
         return fragment;
     }
 

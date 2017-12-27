@@ -22,11 +22,10 @@ import pm_views.flows.flow_controllers.PageThreeController;
  * Created by shrikanth on 11/6/17.
  */
 
-public class PageThreeFragment extends PMFragment{
+public class PageThreeFragment extends PMFragment<PageThreeController>{
 
 
     Button click;
-    PageThreeController controller;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

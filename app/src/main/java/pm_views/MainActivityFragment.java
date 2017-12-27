@@ -9,6 +9,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import MVC.AddressController;
+import MVC.AutoCloseFragmentController;
 import MVC.DataFetchListener;
 import MVC.GlobalControllerFactory;
 import MVC.MainActivityFragmentLifeCycleOwner;
@@ -17,15 +18,15 @@ import lifecycle.MyLifecycleObserver;
 import pm_views.flows.PageOneFragment;
 import pm_views.flows.TabsContainerFragment;
 import pm_views.flows.flow_controllers.MainActivityFragmentController;
+import pm_views.flows.flow_controllers.PageOneController;
 import pm_views.flows.flow_controllers.TabsContainerController;
 
 /**
  * A placeholder fragment containing a simple view.
  */
-public class MainActivityFragment extends PMFragment implements MainActivityFragmentLifeCycleOwner {
+public class MainActivityFragment extends PMFragment<MainActivityFragmentController> implements MainActivityFragmentLifeCycleOwner {
 
     private MyLifecycleObserver observer;
-    private MainActivityFragmentController controller;
 
     View    threeFlows, autoClose, tabsContainer;
 
@@ -67,20 +68,20 @@ public class MainActivityFragment extends PMFragment implements MainActivityFrag
         threeFlows.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getOwnerActivity().launchFragment(PageOneFragment.class);
+                getOwnerActivity().launchController(PageOneController.class, PageOneFragment.class, null);
             }
         });
         autoClose.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getOwnerActivity().launchFragment(AutoCloseFragment.class);
+                getOwnerActivity().launchController(AutoCloseFragmentController.class, AutoCloseFragment.class, null);
             }
         });
 
         tabsContainer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getOwnerActivity().launchController(TabsContainerController.class, TabsContainerFragment.class, null);
+                getOwnerActivity().launchControllerForResult(TabsContainerController.class, TabsContainerFragment.class, null, controller, 10);
             }
         });
 

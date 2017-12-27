@@ -13,16 +13,17 @@ import MVC.PMExtendedLifecycleOwner;
 import pm_views.PMFragment;
 import pm_views.R;
 import pm_views.flows.flow_controllers.PageOneController;
+import pm_views.flows.flow_controllers.PageTwoController;
 
 /**
  * Created by shrikanth on 11/6/17.
  */
 
-public class PageOneFragment extends PMFragment implements PMExtendedLifecycleOwner {
+public class PageOneFragment extends PMFragment<PageOneController> implements PMExtendedLifecycleOwner {
 
 
     Button click, back_from_controller_test;
-    PageOneController controller;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,7 +50,7 @@ public class PageOneFragment extends PMFragment implements PMExtendedLifecycleOw
         click.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getOwnerActivity().launchFragmentForResult(PageTwoFragment.class, getIdentifier(), PageOneController.REQUEST_CODE_A);
+                getOwnerActivity().launchControllerForResult(PageTwoController.class, PageTwoFragment.class, null, controller, PageOneController.REQUEST_CODE_A);
             }
         });
     }

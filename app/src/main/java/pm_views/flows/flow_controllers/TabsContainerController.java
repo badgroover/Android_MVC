@@ -72,7 +72,4 @@ public class TabsContainerController extends BaseController<TabsContainerLifecyc
         return data;
     }
 
-    public TabContainerData.TabData getTabData(int position){
-        return data.tabData.get(position);
-    }
 }

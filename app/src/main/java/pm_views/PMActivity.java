@@ -10,7 +10,9 @@ import java.util.HashMap;
 import java.util.UUID;
 
 import MVC.BaseController;
+import MVC.GlobalControllerFactory;
 import MVC.PMLifecycleOwner;
+import MVC.ResultsListener;
 
 /**
  * Created by nsohoni on 16/10/17.
@@ -78,16 +80,6 @@ public class PMActivity extends FragmentActivity implements PMLifecycleOwner {
     }
 
     @Override
-    public UUID getTargetLifecycleOwner() {
-        return null;
-    }
-
-    @Override
-    public int getRequestCode() {
-        return -1;
-    }
-
-    @Override
     public void kill() {
         finish();
     }
@@ -102,7 +94,7 @@ public class PMActivity extends FragmentActivity implements PMLifecycleOwner {
         return isStateSaved;
     }
 
-    public void launchFragment(Class fragmentClass) {
+    /*public void launchFragment(Class fragmentClass) {
         PMFragment fragment;
         try {
             fragment = (PMFragment) fragmentClass.newInstance();
@@ -125,7 +117,7 @@ public class PMActivity extends FragmentActivity implements PMLifecycleOwner {
         PMFragment fragment;
         try {
             fragment = (PMFragment) fragmentClass.newInstance();
-            fragment.setTargetController(targetControllerID, requestCode);
+            //fragment.setResultsListener(targetControllerID, requestCode);
             FragmentManager fm = getSupportFragmentManager();
             int count = fm.getBackStackEntryCount();
             FragmentTransaction ft = fm.beginTransaction();
@@ -139,14 +131,37 @@ public class PMActivity extends FragmentActivity implements PMLifecycleOwner {
         } catch (IllegalAccessException e) {
             e.printStackTrace();
         }
-    }
+    }*/
 
     public void launchController(Class controllerClass, Class fragmentClass, HashMap<String, Object> map) {
+        launchControllerForResult(controllerClass, fragmentClass, map, null, -1);
+    }
+
+    public void launchControllerForResult(Class controllerClass, Class fragmentClass, HashMap<String, Object> map, ResultsListener resultsListener, int returnCode) {
         BaseController controller;
         try {
             controller = (BaseController) controllerClass.newInstance();
             controller.setArguments(map);
-            controller.init(this, fragmentClass);
+            if(resultsListener != null){
+                controller.setResultsListener(resultsListener, returnCode);
+            }
+            PMFragment fragment;
+            try {
+                fragment = (PMFragment) fragmentClass.newInstance();
+                GlobalControllerFactory.getInstance().addController(fragment.getIdentifier(), controller);
+                FragmentManager fm = getSupportFragmentManager();
+                int count = fm.getBackStackEntryCount();
+                FragmentTransaction ft = fm.beginTransaction();
+                ft.setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left, R.anim.slide_in_left, R.anim.slide_out_right);
+                ft.replace(R.id.fragmentContainer, fragment, Integer.toString(count + 1));
+                ft.addToBackStack(Integer.toString(count + 1));
+                ft.commit();
+
+            } catch (InstantiationException e) {
+                e.printStackTrace();
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+            }
         } catch (InstantiationException e) {
             e.printStackTrace();
         } catch (IllegalAccessException e) {

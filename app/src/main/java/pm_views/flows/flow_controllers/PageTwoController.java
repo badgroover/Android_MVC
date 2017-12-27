@@ -19,6 +19,9 @@ public class PageTwoController extends BaseController<PMExtendedLifecycleOwner> 
 
     public static final int REQUEST_CODE_B = 1;
 
+    public PageTwoController() {
+    }
+
     public PageTwoController(PMExtendedLifecycleOwner lifecycleOwner) {
         super(lifecycleOwner);
     }

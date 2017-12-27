@@ -21,6 +21,9 @@ import static java.lang.Thread.sleep;
 
 public class MainActivityFragmentController extends BaseController<MainActivityFragmentLifeCycleOwner> {
 
+    public MainActivityFragmentController() {
+    }
+
     public MainActivityFragmentController(MainActivityFragmentLifeCycleOwner owner) {
         super(owner);
     }
@@ -39,7 +42,9 @@ public class MainActivityFragmentController extends BaseController<MainActivityF
 
     @Override
     public void returnResults(HashMap<String, Object> hashMap, int returnCode) {
+        if(returnCode == 10){
 
+        }
     }
 
 }
