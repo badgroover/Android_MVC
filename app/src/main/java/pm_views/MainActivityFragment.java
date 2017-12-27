@@ -29,9 +29,6 @@ public class MainActivityFragment extends PMFragment<MainActivityFragmentControl
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        controller = GlobalControllerFactory.getInstance().createControllerForLifecycleOwner(this, MainActivityFragmentController.class);
-        getLifecycle().addObserver(controller);
     }
 
     @Override

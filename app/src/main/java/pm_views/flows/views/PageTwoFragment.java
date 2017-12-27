@@ -31,7 +31,6 @@ public class PageTwoFragment extends PMFragment<PageTwoController> implements PM
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        controller = GlobalControllerFactory.getInstance().createControllerForLifecycleOwner(this, PageTwoController.class);
     }
 
     @Nullable

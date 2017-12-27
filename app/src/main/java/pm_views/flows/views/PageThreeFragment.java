@@ -23,7 +23,6 @@ public class PageThreeFragment extends PMFragment<PageThreeController>{
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        controller = GlobalControllerFactory.getInstance().createControllerForLifecycleOwner(this, PageThreeController.class);
     }
 
     @Nullable

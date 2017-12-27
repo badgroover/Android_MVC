@@ -8,6 +8,7 @@ import android.support.v4.app.Fragment;
 import java.util.UUID;
 
 import MVC.BaseController;
+import MVC.GlobalControllerFactory;
 import MVC.PMLifecycleOwner;
 import MVC.ResultsListener;
 
@@ -28,9 +29,7 @@ public abstract class PMFragment<T extends BaseController> extends DialogFragmen
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if(savedInstanceState != null) {
-            fragmentId = UUID.fromString(savedInstanceState.getString("FRAGMENT_ID"));
-        }
+        bindController(savedInstanceState);
     }
     @Override
     public void onSaveInstanceState(Bundle outState) {
@@ -77,4 +76,17 @@ public abstract class PMFragment<T extends BaseController> extends DialogFragmen
         return PMLifecycleOwner.class;
     }
 
+    public void setController(T controller){
+        this.controller = controller;
+    }
+    private void bindController(Bundle savedInstanceState){
+        if(controller == null){
+            if(savedInstanceState != null) {
+                fragmentId = UUID.fromString(savedInstanceState.getString("FRAGMENT_ID"));
+            }
+            controller = (T)GlobalControllerFactory.getInstance().getControllerForLifecycleOwner(fragmentId);
+        }
+        getLifecycle().addObserver(controller);
+        controller.setLifecycleRegistryOwner(this);
+    }
 }

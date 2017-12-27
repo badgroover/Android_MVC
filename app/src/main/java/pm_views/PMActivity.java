@@ -137,6 +137,20 @@ public class PMActivity extends FragmentActivity implements PMLifecycleOwner {
         launchControllerForResult(controllerClass, fragmentClass, map, null, -1);
     }
 
+    /**
+     * 1. Create controller
+     * 2. Set results listener if there is one
+     * 3. Create the fragment
+     * 4. Add controller to fragment
+     * 5. Add fragment as the life cycle owner
+     * 6. Add controller to global space
+     * 7. Launch the fragment
+     * @param controllerClass
+     * @param fragmentClass
+     * @param map
+     * @param resultsListener
+     * @param returnCode
+     */
     public void launchControllerForResult(Class controllerClass, Class fragmentClass, HashMap<String, Object> map, ResultsListener resultsListener, int returnCode) {
         BaseController controller;
         try {
@@ -145,23 +159,18 @@ public class PMActivity extends FragmentActivity implements PMLifecycleOwner {
             if(resultsListener != null){
                 controller.setResultsListener(resultsListener, returnCode);
             }
-            PMFragment fragment;
-            try {
-                fragment = (PMFragment) fragmentClass.newInstance();
-                GlobalControllerFactory.getInstance().addController(fragment.getIdentifier(), controller);
-                FragmentManager fm = getSupportFragmentManager();
-                int count = fm.getBackStackEntryCount();
-                FragmentTransaction ft = fm.beginTransaction();
-                ft.setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left, R.anim.slide_in_left, R.anim.slide_out_right);
-                ft.replace(R.id.fragmentContainer, fragment, Integer.toString(count + 1));
-                ft.addToBackStack(Integer.toString(count + 1));
-                ft.commit();
+            PMFragment fragment = (PMFragment) fragmentClass.newInstance();
+            fragment.setController(controller);
+            controller.setLifecycleRegistryOwner(fragment);
+            GlobalControllerFactory.getInstance().addController(fragment.getIdentifier(), controller);
 
-            } catch (InstantiationException e) {
-                e.printStackTrace();
-            } catch (IllegalAccessException e) {
-                e.printStackTrace();
-            }
+            FragmentManager fm = getSupportFragmentManager();
+            int count = fm.getBackStackEntryCount();
+            FragmentTransaction ft = fm.beginTransaction();
+            ft.setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left, R.anim.slide_in_left, R.anim.slide_out_right);
+            ft.replace(R.id.fragmentContainer, fragment, Integer.toString(count + 1));
+            ft.addToBackStack(Integer.toString(count + 1));
+            ft.commit();
         } catch (InstantiationException e) {
             e.printStackTrace();
         } catch (IllegalAccessException e) {

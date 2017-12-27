@@ -12,15 +12,12 @@ import MVC.GlobalControllerFactory;
  * Created by shrikanth on 11/6/17.
  */
 
-public class AutoCloseFragment extends PMFragment {
+public class AutoCloseFragment extends PMFragment<AutoCloseFragmentController> {
 
-    AutoCloseFragmentController controller;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        controller = GlobalControllerFactory.getInstance().createControllerForLifecycleOwner(this, AutoCloseFragmentController.class);
-        getLifecycle().addObserver(controller);
     }
 
 
