@@ -5,7 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import MVC.AutoCloseFragmentController;
+import pm_views.flows.flow_controllers.AutoCloseFragmentController;
 import MVC.GlobalControllerFactory;
 
 /**

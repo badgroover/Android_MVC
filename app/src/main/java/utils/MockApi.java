@@ -1,4 +1,4 @@
-package MVC;
+package utils;
 
 import android.app.Activity;
 import android.os.Handler;

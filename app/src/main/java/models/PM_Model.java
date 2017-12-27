@@ -1,4 +1,4 @@
-package MVC;
+package models;
 
 /**
  * Created by nsohoni on 14/10/17.

@@ -2,7 +2,6 @@ package pm_views.flows;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.design.widget.TabItem;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,7 +12,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import MVC.GlobalControllerFactory;
-import MVC.TabsContainerLifecycleOwner;
+import pm_views.life_cycler_owners.TabsContainerLifecycleOwner;
 import pm_views.PMFragment;
 import pm_views.R;
 import pm_views.flows.flow_controllers.TabItemController;

@@ -6,7 +6,6 @@ import android.arch.lifecycle.OnLifecycleEvent;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
-import android.support.annotation.CallSuper;
 import android.support.v4.app.FragmentActivity;
 
 
@@ -15,6 +14,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.LinkedBlockingQueue;
 
+import models.PM_Model;
 import pm_views.PMActivity;
 
 /**
@@ -23,7 +23,7 @@ import pm_views.PMActivity;
 
 public abstract class BaseController<L extends PMLifecycleOwner> implements LifecycleObserver, ResultsListener {
 
-    protected PM_Model                              model;
+    protected PM_Model model;
     private WeakReference<L>                        lifecycleRegistryOwner;
     private Object                                  mutex = new Object();
     private boolean                                 isControllerAlive = false;

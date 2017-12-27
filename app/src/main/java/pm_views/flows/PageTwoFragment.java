@@ -2,7 +2,6 @@ package pm_views.flows;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
@@ -10,10 +9,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
-import java.lang.reflect.Field;
-
 import MVC.GlobalControllerFactory;
-import MVC.PMExtendedLifecycleOwner;
+import pm_views.life_cycler_owners.PMExtendedLifecycleOwner;
 import pm_views.PMActivity;
 import pm_views.PMFragment;
 import pm_views.R;

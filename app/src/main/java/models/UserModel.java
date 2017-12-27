@@ -1,6 +1,4 @@
-package MVC;
-
-import MVC.PM_Model;
+package models;
 
 /**
  * Created by nsohoni on 14/10/17.

@@ -4,16 +4,10 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.TextView;
 
-import MVC.AddressController;
-import MVC.AutoCloseFragmentController;
-import MVC.DataFetchListener;
+import pm_views.flows.flow_controllers.AutoCloseFragmentController;
 import MVC.GlobalControllerFactory;
-import MVC.MainActivityFragmentLifeCycleOwner;
-import MVC.UserModel;
+import pm_views.life_cycler_owners.MainActivityFragmentLifeCycleOwner;
 import lifecycle.MyLifecycleObserver;
 import pm_views.flows.PageOneFragment;
 import pm_views.flows.TabsContainerFragment;

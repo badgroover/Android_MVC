@@ -9,7 +9,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import MVC.GlobalControllerFactory;
-import MVC.TabItemLifecycleOwner;
+import pm_views.life_cycler_owners.TabItemLifecycleOwner;
 import pm_views.PMFragment;
 import pm_views.R;
 import pm_views.flows.flow_controllers.TabItemController;
