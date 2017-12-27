@@ -75,18 +75,19 @@ public class TabsContainerFragment extends PMFragment<TabsContainerController> i
         map.put("title", controller.getData().getTabData(position).getTitle());
         map.put("index", position);
         map.put("tabData", controller.getData().tabData.get(position));
-        PMFragment fragment = new TabItemFragment();
         try {
             TabItemController tabItemController = TabItemController.class.newInstance();
+            PMFragment fragment = new TabItemFragment();
+            fragment.setController(tabItemController);
             tabItemController.setArguments(map);
             GlobalControllerFactory.getInstance().addController(fragment.getIdentifier(), tabItemController);
             tabItemController.setResultsListener(this.controller, 5);
+            return fragment;
         } catch (java.lang.InstantiationException e) {
-            e.printStackTrace();
+           throw new RuntimeException(e);
         } catch (IllegalAccessException e) {
-            e.printStackTrace();
+            throw new RuntimeException(e);
         }
-        return fragment;
     }
 
     public int getCount() {
