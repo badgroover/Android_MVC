@@ -23,18 +23,17 @@ import pm_views.PMActivity;
 
 public abstract class BaseController<L extends PMLifecycleOwner> implements LifecycleObserver, ResultsListener {
 
-    protected PM_Model model;
     private WeakReference<L>                        lifecycleRegistryOwner;
-    private Object                                  mutex = new Object();
+    private final Object                            mutex = new Object();
     private boolean                                 isControllerAlive = false;
     private HashMap<String, Object>                 returnData;
     private LinkedBlockingQueue<MESSAGE_TYPE>       deferredCommand = new LinkedBlockingQueue<>(1);
-    protected Map<String, Object>                     arguments;
-    private int requestCode;
-    private int returnCode;
+    protected Map<String, Object>                   arguments;
+    private int                                     requestCode;
+    private int                                     returnCode;
     private ResultsListener                         resultsListener;
 
-    protected enum MESSAGE_TYPE {EXIT, RETURN_DATA_AND_EXIT};
+    protected enum MESSAGE_TYPE {EXIT, RETURN_DATA_AND_EXIT}
 
     private Handler handler = new Handler(Looper.getMainLooper(), new Handler.Callback() {
         @Override
@@ -144,16 +143,9 @@ public abstract class BaseController<L extends PMLifecycleOwner> implements Life
         }
     }
 
-    public <T> T getModel(Class<T> modelType) {
-        if(model != null && modelType.isInstance(model)) {
-            return modelType.cast(model);
-        } else {
-            return null;
-        }
-    }
 
     public void setLifecycleRegistryOwner(L owner) {
-        lifecycleRegistryOwner = new WeakReference(owner);
+        lifecycleRegistryOwner = new WeakReference<>(owner);
     }
 
     public void queueExit() {
@@ -161,7 +153,7 @@ public abstract class BaseController<L extends PMLifecycleOwner> implements Life
         deferredCommand.add(MESSAGE_TYPE.EXIT);
     }
 
-    public void queueReturnResultsAndExit(HashMap<String, Object> hashMap, int returnCode) {
+    protected void queueReturnResultsAndExit(HashMap<String, Object> hashMap, int returnCode) {
         returnData = hashMap;
         this.returnCode = returnCode;
         deferredCommand.clear();

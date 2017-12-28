@@ -61,7 +61,7 @@ public class GlobalControllerFactory {
                 Class clzz = owner.getViewInterface();
                 if(clzz.isAssignableFrom(owner.getClass())){
                     ctor = controllerClass.getConstructor(owner.getViewInterface());
-                    controller = (BaseController) ctor.newInstance(new Object[] { owner });
+                    controller = (BaseController) ctor.newInstance(owner);
                     owner.getLifecycle().addObserver(controller);
                     map.put(identifier, controller);
                     return controllerClass.cast(controller);

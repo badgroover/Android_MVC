@@ -5,6 +5,6 @@ package MVC;
  */
 
 public interface DataFetchListener<T> {
-    public  void    success(T data);
-    public  void    error();
+    void    success(T data);
+    void    error();
 }
