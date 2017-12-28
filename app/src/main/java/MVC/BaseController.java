@@ -36,15 +36,17 @@ public abstract class BaseController<L extends PMLifecycleOwner> implements Life
 
     protected enum MESSAGE_TYPE {EXIT, RETURN_DATA_AND_EXIT};
 
-    Handler handler = new Handler(Looper.getMainLooper(), new Handler.Callback() {
+    private Handler handler = new Handler(Looper.getMainLooper(), new Handler.Callback() {
         @Override
         public boolean handleMessage(Message msg) {
             MESSAGE_TYPE type = MESSAGE_TYPE.values()[msg.what];
             switch(type) {
                 case EXIT:
                     exit();
+                    break;
                 case RETURN_DATA_AND_EXIT:
                     returnResults(returnData, returnCode);
+                    break;
             }
             return false;
         } });
@@ -169,8 +171,8 @@ public abstract class BaseController<L extends PMLifecycleOwner> implements Life
     public void exit() {
         //Exiting a controller is done by exiting/removing the attached LifeCycleOwner.
         //This in turn will remove the controller in the correct order
-        L owner = getLifecycleOwner();
-        if(owner.getLifecycle().getCurrentState().isAtLeast(Lifecycle.State.RESUMED)) {
+        if(isResumed()) {
+            L owner = getLifecycleOwner();
             owner.kill();
         }
     }
@@ -184,14 +186,21 @@ public abstract class BaseController<L extends PMLifecycleOwner> implements Life
     public abstract void onResult(int requestCode, int resultOk, HashMap<String, Object> results);
 
     public void returnResults(HashMap<String, Object> hashMap, int returnCode) {
-        PMLifecycleOwner owner = getLifecycleOwner();
         if(isControllerAlive() && resultsListener != null) {
-            if (owner.getLifecycle().getCurrentState().isAtLeast(Lifecycle.State.RESUMED)) {
+            if (isResumed()) {
                 resultsListener.onResult(requestCode, returnCode, hashMap);
                 exit();
             } else {
                 queueReturnResultsAndExit(hashMap, returnCode);
             }
         }
+    }
+
+
+    //helpers
+
+    private boolean isResumed(){
+        PMLifecycleOwner owner = getLifecycleOwner();
+        return owner != null && owner.getLifecycle().getCurrentState().isAtLeast(Lifecycle.State.RESUMED);
     }
 }
