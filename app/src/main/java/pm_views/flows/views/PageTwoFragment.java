@@ -45,7 +45,7 @@ public class PageTwoFragment extends PMFragment<PageTwoController> implements PM
         click.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                controller.launchControllerForResult(PageThreeController.class, PageThreeFragment.class, null, controller, RequestCode.ONE);
+                controller.launchPageThree();
             }
         });
     }

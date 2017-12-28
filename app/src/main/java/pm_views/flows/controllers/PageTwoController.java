@@ -5,6 +5,7 @@ import java.util.HashMap;
 import MVC.BaseController;
 import pm_views.flows.life_cycler_owners.PMExtendedLifecycleOwner;
 import pm_views.flows.models.RequestCode;
+import pm_views.flows.views.PageThreeFragment;
 
 /**
  * Created by nsohoni on 08/11/17.
@@ -30,5 +31,8 @@ public class PageTwoController extends BaseController<PMExtendedLifecycleOwner> 
         }
     }
 
+    public void launchPageThree() {
+        launchControllerForResult(PageThreeController.class, PageThreeFragment.class, null, this, RequestCode.ONE);
+    }
 }
 

@@ -63,14 +63,14 @@ public class MainActivityFragment extends PMFragment<MainActivityFragmentControl
         autoClose.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                controller.launchController(AutoCloseFragmentController.class, AutoCloseFragment.class, null);
+                controller.launchAutoClose();
             }
         });
 
         tabsContainer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                controller.launchControllerForResult(TabsContainerController.class, TabsContainerFragment.class, null, controller, 10);
+                controller.launchTabs();
             }
         });
 

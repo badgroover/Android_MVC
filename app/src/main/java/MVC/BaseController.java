@@ -192,11 +192,11 @@ public abstract class BaseController<L extends PMLifecycleOwner> implements Life
 
 
     //abstraction helpers
-    public void launchController(Class controllerClass, Class fragmentClass, Map data){
+    protected void launchController(Class controllerClass, Class fragmentClass, Map data){
         launchControllerForResult(controllerClass, fragmentClass , data, null, -1);
     }
 
-    public void launchControllerForResult(Class controllerClass, Class fragmentClass, Map data, ResultsListener resultsListener, int requestCode){
+    protected void launchControllerForResult(Class controllerClass, Class fragmentClass, Map data, ResultsListener resultsListener, int requestCode){
         if(isResumed()){
             getLifecycleOwner().getOwnerActivity().launchControllerForResult(controllerClass, fragmentClass, data, resultsListener, requestCode);
         }else{
