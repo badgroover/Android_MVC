@@ -86,7 +86,11 @@ public abstract class PMFragment<T extends BaseController> extends DialogFragmen
             }
             controller = (T)GlobalControllerFactory.getInstance().getControllerForLifecycleOwner(fragmentId);
         }
-        getLifecycle().addObserver(controller);
-        controller.setLifecycleRegistryOwner(this);
+        if(controller != null) {
+            getLifecycle().addObserver(controller);
+            controller.setLifecycleRegistryOwner(this);
+        }else{
+            throw new RuntimeException("Controller for " + this.getClass().getCanonicalName() + " not found");
+        }
     }
 }
