@@ -22,13 +22,12 @@ public class TabItemFragment extends PMFragment<TabItemController> implements Ta
 
 
 
-    TabItemController controller;
+
     ListView myListview;
     ArrayAdapter<String> adapter;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        controller = GlobalControllerFactory.getInstance().createControllerForLifecycleOwner(this, TabItemController.class);
     }
 
     @Nullable

@@ -31,7 +31,6 @@ public class TabsContainerFragment extends PMFragment<TabsContainerController> i
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        controller = GlobalControllerFactory.getInstance().createControllerForLifecycleOwner(this, TabsContainerController.class);
     }
 
     @Nullable
