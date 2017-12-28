@@ -7,6 +7,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 
 import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 
 import MVC.BaseController;
@@ -133,7 +134,7 @@ public class PMActivity extends FragmentActivity implements PMLifecycleOwner {
         }
     }*/
 
-    public void launchController(Class controllerClass, Class fragmentClass, HashMap<String, Object> map) {
+    public void launchController(Class controllerClass, Class fragmentClass, Map<String, Object> map) {
         launchControllerForResult(controllerClass, fragmentClass, map, null, -1);
     }
 
@@ -151,7 +152,7 @@ public class PMActivity extends FragmentActivity implements PMLifecycleOwner {
      * @param resultsListener
      * @param returnCode
      */
-    public void launchControllerForResult(Class controllerClass, Class fragmentClass, HashMap<String, Object> map, ResultsListener resultsListener, int returnCode) {
+    public void launchControllerForResult(Class controllerClass, Class fragmentClass, Map<String, Object> map, ResultsListener resultsListener, int returnCode) {
         try {
             PMFragment fragment = (PMFragment) fragmentClass.newInstance();
             BaseController controller = GlobalControllerFactory.getInstance().createControllerForLifecycleOwner(fragment, controllerClass);

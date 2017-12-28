@@ -14,6 +14,8 @@ import java.util.Map;
 import java.util.concurrent.LinkedBlockingQueue;
 
 import pm_views.PMActivity;
+import pm_views.flows.controllers.PageOneController;
+import pm_views.flows.views.PageOneFragment;
 
 /**
  * Created by nsohoni on 14/10/17.
@@ -189,6 +191,18 @@ public abstract class BaseController<L extends PMLifecycleOwner> implements Life
     }
 
 
+    //abstraction helpers
+    public void launchController(Class controllerClass, Class fragmentClass, Map data){
+        launchControllerForResult(controllerClass, fragmentClass , data, null, -1);
+    }
+
+    public void launchControllerForResult(Class controllerClass, Class fragmentClass, Map data, ResultsListener resultsListener, int requestCode){
+        if(isResumed()){
+            getLifecycleOwner().getOwnerActivity().launchControllerForResult(controllerClass, fragmentClass, data, resultsListener, requestCode);
+        }else{
+
+        }
+    }
     //helpers
 
     private boolean isResumed(){

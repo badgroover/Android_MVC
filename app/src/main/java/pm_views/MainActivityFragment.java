@@ -57,20 +57,20 @@ public class MainActivityFragment extends PMFragment<MainActivityFragmentControl
         threeFlows.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getOwnerActivity().launchController(PageOneController.class, PageOneFragment.class, null);
+                controller.launchPageOne();
             }
         });
         autoClose.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getOwnerActivity().launchController(AutoCloseFragmentController.class, AutoCloseFragment.class, null);
+                controller.launchController(AutoCloseFragmentController.class, AutoCloseFragment.class, null);
             }
         });
 
         tabsContainer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getOwnerActivity().launchControllerForResult(TabsContainerController.class, TabsContainerFragment.class, null, controller, 10);
+                controller.launchControllerForResult(TabsContainerController.class, TabsContainerFragment.class, null, controller, 10);
             }
         });
 
