@@ -152,18 +152,13 @@ public class PMActivity extends FragmentActivity implements PMLifecycleOwner {
      * @param returnCode
      */
     public void launchControllerForResult(Class controllerClass, Class fragmentClass, HashMap<String, Object> map, ResultsListener resultsListener, int returnCode) {
-        BaseController controller;
         try {
-            controller = (BaseController) controllerClass.newInstance();
+            PMFragment fragment = (PMFragment) fragmentClass.newInstance();
+            BaseController controller = GlobalControllerFactory.getInstance().createControllerForLifecycleOwner(fragment, controllerClass);
             controller.setArguments(map);
             if(resultsListener != null){
                 controller.setResultsListener(resultsListener, returnCode);
             }
-            PMFragment fragment = (PMFragment) fragmentClass.newInstance();
-            fragment.setController(controller);
-            controller.setLifecycleRegistryOwner(fragment);
-            GlobalControllerFactory.getInstance().addController(fragment.getIdentifier(), controller);
-
             FragmentManager fm = getSupportFragmentManager();
             int count = fm.getBackStackEntryCount();
             FragmentTransaction ft = fm.beginTransaction();

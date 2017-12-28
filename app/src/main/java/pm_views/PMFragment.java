@@ -71,10 +71,6 @@ public abstract class PMFragment<T extends BaseController> extends DialogFragmen
         }
     }
 
-    @Override
-    public Class getViewInterface() {
-        return PMLifecycleOwner.class;
-    }
 
     public void setController(T controller){
         this.controller = controller;
@@ -93,4 +89,6 @@ public abstract class PMFragment<T extends BaseController> extends DialogFragmen
             throw new RuntimeException("Controller for " + this.getClass().getCanonicalName() + " not found");
         }
     }
+    @Override
+    public abstract Class getViewInterface();
 }

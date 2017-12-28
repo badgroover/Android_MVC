@@ -20,6 +20,10 @@ public class TabsContainerController extends BaseController<TabsContainerLifecyc
     public TabsContainerController() {
     }
 
+    public TabsContainerController(TabsContainerLifecycleOwner lifecycleOwner) {
+        super(lifecycleOwner);
+    }
+
     @Override
     public void create() {
         super.create();

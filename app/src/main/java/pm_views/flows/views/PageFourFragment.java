@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import MVC.GlobalControllerFactory;
+import MVC.PMLifecycleOwner;
 import pm_views.PMFragment;
 import pm_views.R;
 import pm_views.flows.controllers.PageFourController;
@@ -61,6 +62,11 @@ public class PageFourFragment extends PMFragment {
     @Override
     public void setupViews() {
         super.setupViews();
+    }
+
+    @Override
+    public Class getViewInterface() {
+        return PMLifecycleOwner.class;
     }
 
 

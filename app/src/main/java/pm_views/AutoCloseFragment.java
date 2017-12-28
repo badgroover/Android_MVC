@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import MVC.PMLifecycleOwner;
 import pm_views.flows.controllers.AutoCloseFragmentController;
 import MVC.GlobalControllerFactory;
 
@@ -32,5 +33,9 @@ public class AutoCloseFragment extends PMFragment<AutoCloseFragmentController> {
     public void onResume() {
         super.onResume();
         controller.fetchAndFinish();
+    }
+    @Override
+    public Class getViewInterface() {
+        return PMLifecycleOwner.class;
     }
 }

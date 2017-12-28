@@ -66,7 +66,7 @@ public class GlobalControllerFactory {
                     map.put(identifier, controller);
                     return controllerClass.cast(controller);
                 }else{
-                    throw new RuntimeException("Class: " + owner.getClass() + " is not implementing " + owner.getViewInterface());
+                    throw new RuntimeException("Class: " + owner.getClass() + " is not implementing the interface required by" + controllerClass.getCanonicalName());
                 }
 
             } catch (NoSuchMethodException e) {
