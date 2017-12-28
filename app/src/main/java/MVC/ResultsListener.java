@@ -1,7 +1,6 @@
 package MVC;
 
 import java.util.HashMap;
-import java.util.Map;
 
 /**
  * Created by shrikanth on 12/27/17.

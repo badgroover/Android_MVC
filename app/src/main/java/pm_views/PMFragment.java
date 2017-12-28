@@ -3,14 +3,12 @@ package pm_views;
 import android.arch.lifecycle.LifecycleRegistry;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
-import android.support.v4.app.Fragment;
 
 import java.util.UUID;
 
 import MVC.BaseController;
 import MVC.GlobalControllerFactory;
 import MVC.PMLifecycleOwner;
-import MVC.ResultsListener;
 
 /**
  * Created by nsohoni on 16/10/17.

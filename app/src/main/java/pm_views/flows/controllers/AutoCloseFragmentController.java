@@ -1,16 +1,10 @@
 package pm_views.flows.controllers;
 
-import android.arch.lifecycle.Lifecycle;
-import android.os.Handler;
-import android.os.Looper;
-import android.os.Message;
-
 import java.util.HashMap;
 
 import MVC.BaseController;
 import utils.MockApi;
 import MVC.PMLifecycleOwner;
-import pm_views.PMActivity;
 
 /**
  * Created by shrikanth on 11/6/17.

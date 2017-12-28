@@ -6,7 +6,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import pm_views.flows.controllers.AutoCloseFragmentController;
-import MVC.GlobalControllerFactory;
 import pm_views.flows.life_cycler_owners.MainActivityFragmentLifeCycleOwner;
 import pm_views.flows.views.PageOneFragment;
 import pm_views.flows.views.TabsContainerFragment;

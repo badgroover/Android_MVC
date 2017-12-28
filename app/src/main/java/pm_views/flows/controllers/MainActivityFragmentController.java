@@ -8,8 +8,6 @@ import java.util.HashMap;
 import MVC.BaseController;
 import pm_views.flows.life_cycler_owners.MainActivityFragmentLifeCycleOwner;
 
-import static java.lang.Thread.sleep;
-
 /**
  * Created by nsohoni on 14/10/17.
  */
