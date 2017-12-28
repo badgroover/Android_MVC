@@ -108,9 +108,9 @@ public abstract class BaseController<L extends PMLifecycleOwner> implements Life
         //we remove ourselves from the GlobalController map
         L owner = getLifecycleOwner();
         if(owner != null) {
-            FragmentActivity activity = owner.getOwnerActivity();
+            PMActivity activity = owner.getOwnerActivity();
             if(activity != null && (activity.isFinishing() || activity.isDestroyed())) {
-                if(!((PMActivity)activity).isStateSaved()) {
+                if(!activity.isStateSaved()) {
                     isControllerAlive = false;
                     GlobalControllerFactory.getInstance().remove(owner.getIdentifier());
                 }
