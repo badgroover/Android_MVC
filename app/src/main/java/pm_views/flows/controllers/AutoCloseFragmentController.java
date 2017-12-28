@@ -1,6 +1,9 @@
 package pm_views.flows.controllers;
 
 import android.arch.lifecycle.Lifecycle;
+import android.os.Handler;
+import android.os.Looper;
+import android.os.Message;
 
 import java.util.HashMap;
 
@@ -38,17 +41,8 @@ public class AutoCloseFragmentController extends BaseController<PMLifecycleOwner
         MockApi.getData(new MockApi.ResponseHandler() {
             @Override
             public void onSuccess() {
-                if(isControllerAlive() && getLifecycleOwner().getLifecycle().getCurrentState() == Lifecycle.State.RESUMED){
-                    PMActivity activity = getLifecycleOwner().getOwnerActivity();
-                    if(activity != null){
-                        activity.onBackPressed();
-                        detachController();
-                    }
-                }else{
-                    /*
-                     * We need a mechanism here to mark it and finish when it comes alive
-                     */
-                }
+                exit();
+                detachController();
             }
 
             @Override

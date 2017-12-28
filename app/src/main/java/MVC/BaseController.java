@@ -166,6 +166,8 @@ public abstract class BaseController<L extends PMLifecycleOwner> implements Life
         if(isResumed()) {
             L owner = getLifecycleOwner();
             owner.kill();
+        }else {
+            queueExit();
         }
     }
 
