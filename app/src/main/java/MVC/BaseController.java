@@ -205,7 +205,7 @@ public abstract class BaseController<L extends PMLifecycleOwner> implements Life
     }
     //helpers
 
-    private boolean isResumed(){
+    public boolean isResumed(){
         PMLifecycleOwner owner = getLifecycleOwner();
         return owner != null && owner.getLifecycle().getCurrentState().isAtLeast(Lifecycle.State.RESUMED);
     }

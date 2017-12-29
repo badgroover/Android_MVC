@@ -31,7 +31,6 @@ public class AutoCloseFragment extends PMFragment<AutoCloseFragmentController> {
     @Override
     public void onResume() {
         super.onResume();
-        controller.fetchAndFinish();
     }
     @Override
     public Class getViewInterface() {
