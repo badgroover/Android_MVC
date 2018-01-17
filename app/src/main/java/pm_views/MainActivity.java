@@ -24,7 +24,9 @@ public class MainActivity extends PMActivity {
         observer = new MyActivityLifecycleObserver(this, getLifecycle());
 
         getLifecycle().addObserver(observer);
-        launchController(MainActivityFragmentController.class,MainActivityFragment.class,null);
+        if(getSupportFragmentManager().getBackStackEntryCount() <= 0) {
+            launchController(MainActivityFragmentController.class, MainActivityFragment.class, null);
+        }
     }
 
     @Override
